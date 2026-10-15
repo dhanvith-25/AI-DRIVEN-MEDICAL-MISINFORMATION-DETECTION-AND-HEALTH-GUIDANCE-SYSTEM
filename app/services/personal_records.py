@@ -132,10 +132,19 @@ def store_report_file(filename: str | None, raw: bytes, suffix: str) -> tuple[st
 def extract_report_text(path: str | Path, suffix: str) -> tuple[str, str]:
     """Return extracted text and the local method used to obtain it."""
 
-    source = Path(path)
+    return _extract_report_text(Path(path), suffix)
+
+
+def extract_report_text_from_bytes(raw: bytes, suffix: str) -> tuple[str, str]:
+    """Extract report text directly from uploaded bytes without storing the file."""
+
+    return _extract_report_text(BytesIO(raw), suffix)
+
+
+def _extract_report_text(source: Path | BytesIO, suffix: str) -> tuple[str, str]:
     try:
         if suffix == ".pdf":
-            reader = PdfReader(str(source))
+            reader = PdfReader(source)
             text = "\n".join(page.extract_text() or "" for page in reader.pages)
             method = "pdf_text"
         else:

@@ -26,3 +26,636 @@ text,label
 "facial pressure nasal congestion and headache",Sinusitis
 "sinus pressure blocked nose and facial pain",Sinusitis
 "nasal congestion headache and pressure around the face",Sinusitis
+"nasal congestion sneezing and a mild cough",Common cold
+"high fever body aches chills and dry cough",Influenza
+"sore throat swollen tonsils and fever",Strep throat
+"sudden fever cough and shortness of breath",Pneumonia
+"persistent cough with phlegm and chest tightness",Bronchitis
+"wheezing shortness of breath and chest tightness",Asthma
+"chronic cough breathlessness and excess mucus",COPD
+"fever dry cough loss of taste and fatigue",COVID-19
+"night sweats weight loss and a cough lasting weeks",Tuberculosis
+"barking cough hoarse voice and noisy breathing",Croup
+"severe coughing fits followed by a whooping sound",Whooping cough
+"facial pain nasal discharge and blocked nose",Sinusitis
+"itchy eyes sneezing and runny nose",Allergic rhinitis
+"ear pain muffled hearing and fever",Otitis media
+"red itchy eyes with sticky discharge",Conjunctivitis
+"painful swollen glands and extreme tiredness",Infectious mononucleosis
+"fever rash and swollen glands behind the ears",Rubella
+"fever cough runny nose and red rash spreading from the face",Measles
+"swollen cheeks jaw pain and fever",Mumps
+"itchy blisters fever and tiredness",Chickenpox
+"painful blistering rash on one side of the body",Shingles
+"fever rash and sore throat with strawberry tongue",Scarlet fever
+"blisters on hands feet and mouth with fever",Hand foot and mouth disease
+"high fever severe headache and pain behind the eyes",Dengue fever
+"cyclical fever chills and sweating",Malaria
+"fever headache and abdominal pain with rose-colored spots",Typhoid fever
+"watery diarrhea and rapid dehydration",Cholera
+"bloody diarrhea abdominal cramps and fever",Dysentery
+"nausea vomiting and watery diarrhea",Gastroenteritis
+"yellow skin dark urine and fatigue",Hepatitis A
+"jaundice abdominal pain and loss of appetite",Hepatitis B
+"fatigue joint pain and mild abdominal discomfort",Hepatitis C
+"fever joint pain and rash after a mosquito bite",Chikungunya
+"fever headache and muscle pain after a mosquito bite",Zika virus infection
+"fever fear of water and hallucinations after an animal bite",Rabies
+"high fever stiff neck and sensitivity to light",Meningitis
+"fever confusion and seizures",Encephalitis
+"jaw stiffness and painful muscle spasms",Tetanus
+"gray membrane in the throat and difficulty swallowing",Diphtheria
+"fever muscle weakness and paralysis",Polio
+"bullseye rash fever and joint pain after a tick bite",Lyme disease
+"fever headache and rash after a tick bite",Rocky Mountain spotted fever
+"fever muscle pain and yellow eyes after contact with floodwater",Leptospirosis
+"painless genital sore and later skin rash",Syphilis
+"burning urination and discharge",Gonorrhea
+"burning urination and pelvic pain with discharge",Chlamydia
+"painful genital blisters and itching",Genital herpes
+"recurrent fever weight loss and swollen lymph nodes",HIV/AIDS
+"painful urination frequent urge and cloudy urine",Urinary tract infection
+"flank pain fever and burning urination",Pyelonephritis
+"severe side pain radiating to the groin and blood in urine",Kidney stones
+"itching and thick white vaginal discharge",Vaginal yeast infection
+"fishy vaginal odor and thin gray discharge",Bacterial vaginosis
+"pelvic pain fever and abnormal discharge",Pelvic inflammatory disease
+"white patches in the mouth and soreness",Oral thrush
+"itchy ring-shaped scaly rash",Ringworm
+"itchy peeling skin between the toes",Athlete's foot
+"intense itching worse at night with burrow marks",Scabies
+"itchy scalp and small white specks on hair",Head lice
+"red painful swollen skin that feels warm",Cellulitis
+"red bumps with pus and honey-colored crusts",Impetigo
+"clusters of pus-filled bumps on the face and back",Acne vulgaris
+"red scaly itchy patches on elbows and knees",Psoriasis
+"dry itchy inflamed skin with rashes",Eczema
+"raised itchy welts that come and go",Urticaria
+"flushing redness and visible blood vessels on the cheeks",Rosacea
+"white patches of skin with loss of pigment",Vitiligo
+"hair loss in round patches",Alopecia areata
+"painless wart-like skin growths",Warts
+"waxy skin bumps with central dimple",Molluscum contagiosum
+"pearly bump that bleeds and does not heal",Basal cell carcinoma
+"changing mole with irregular borders and color",Melanoma
+"chest pain radiating to the arm with sweating",Myocardial infarction
+"chest pressure on exertion relieved by rest",Angina pectoris
+"persistent high blood pressure with headaches",Hypertension
+"breathlessness swollen ankles and fatigue",Congestive heart failure
+"palpitations dizziness and an irregular pulse",Atrial fibrillation
+"sudden weakness facial droop and slurred speech",Stroke
+"calf pain swelling and warmth in one leg",Deep vein thrombosis
+"sudden chest pain and breathlessness after prolonged immobility",Pulmonary embolism
+"leg pain on walking that eases with rest",Peripheral artery disease
+"swollen twisted veins in the legs",Varicose veins
+"tearing chest or back pain of sudden onset",Aortic dissection
+"fever new heart murmur and fatigue",Infective endocarditis
+"sharp chest pain that worsens when lying down",Pericarditis
+"fatigue pallor and shortness of breath",Iron deficiency anemia
+"fatigue numbness and a smooth sore tongue",Vitamin B12 deficiency anemia
+"episodes of severe bone pain and fatigue in sickle-shaped cells",Sickle cell disease
+"easy bruising bleeding gums and fatigue",Leukemia
+"painless swollen lymph nodes fever and night sweats",Lymphoma
+"excessive thirst frequent urination and weight loss",Type 1 diabetes
+"increased thirst blurred vision and slow-healing wounds",Type 2 diabetes
+"tingling feet burning pain and numbness in diabetics",Diabetic neuropathy
+"weight gain fatigue and cold intolerance",Hypothyroidism
+"weight loss palpitations and heat intolerance",Hyperthyroidism
+"swelling in the neck and difficulty swallowing",Goiter
+"weight gain round face and purple stretch marks",Cushing's syndrome
+"fatigue low blood pressure and darkened skin",Addison's disease
+"irregular periods acne and excess facial hair",Polycystic ovary syndrome
+"heavy periods and pelvic pain",Endometriosis
+"heavy menstrual bleeding and pelvic pressure",Uterine fibroids
+"hot flashes mood changes and irregular periods in midlife",Menopause
+"brittle bones and fractures with minor falls",Osteoporosis
+"joint pain stiffness that worsens with use",Osteoarthritis
+"symmetrical joint swelling and morning stiffness",Rheumatoid arthritis
+"sudden intense big toe pain with redness and swelling",Gout
+"widespread muscle pain fatigue and poor sleep",Fibromyalgia
+"butterfly facial rash joint pain and sun sensitivity",Systemic lupus erythematosus
+"lower back pain and stiffness improving with movement",Ankylosing spondylitis
+"shooting pain from the lower back down the leg",Sciatica
+"heel pain worst with the first steps in the morning",Plantar fasciitis
+"wrist pain numbness and tingling in the thumb and fingers",Carpal tunnel syndrome
+"pain on the outer elbow when gripping",Tennis elbow
+"shoulder pain and limited movement",Frozen shoulder
+"bone pain fever and swelling over the affected area",Osteomyelitis
+"fatigue persisting for months not relieved by rest",Chronic fatigue syndrome
+"throbbing headache with nausea and sensitivity to light",Migraine
+"tight band-like pressure around the head",Tension headache
+"severe one-sided eye pain with tearing and nasal congestion",Cluster headache
+"sudden brief episodes of convulsions and loss of awareness",Epilepsy
+"tremor stiffness and slow movement",Parkinson's disease
+"memory loss confusion and difficulty with daily tasks",Alzheimer's disease
+"numbness vision problems and muscle weakness that relapses",Multiple sclerosis
+"progressive muscle weakness and twitching",Amyotrophic lateral sclerosis
+"involuntary jerking movements and mood changes",Huntington's disease
+"muscle weakness that worsens with activity and droopy eyelids",Myasthenia gravis
+"ascending weakness and tingling after an infection",Guillain-Barré syndrome
+"sudden facial droop on one side",Bell's palsy
+"electric-shock facial pain triggered by touch",Trigeminal neuralgia
+"dizziness spinning sensation and nausea",Vertigo
+"episodic vertigo ringing in the ears and hearing loss",Meniere's disease
+"persistent sadness loss of interest and low energy",Major depressive disorder
+"alternating episodes of elevated mood and depression",Bipolar disorder
+"excessive worry restlessness and muscle tension",Generalized anxiety disorder
+"sudden intense fear with palpitations and sweating",Panic disorder
+"intrusive thoughts and repetitive rituals",Obsessive-compulsive disorder
+"flashbacks nightmares and hypervigilance after trauma",Post-traumatic stress disorder
+"hallucinations delusions and disorganized thinking",Schizophrenia
+"inattention hyperactivity and impulsivity",ADHD
+"difficulty with social interaction and repetitive behaviors",Autism spectrum disorder
+"restriction of food intake and intense fear of weight gain",Anorexia nervosa
+"binge eating followed by purging",Bulimia nervosa
+"difficulty falling asleep and staying asleep",Insomnia
+"loud snoring and pauses in breathing during sleep",Obstructive sleep apnea
+"sudden sleep attacks and muscle weakness with emotion",Narcolepsy
+"heartburn and sour taste in the mouth",Gastroesophageal reflux disease
+"burning stomach pain that eases with eating",Peptic ulcer
+"upper abdominal pain bloating and nausea",Gastritis
+"abdominal pain bloating and alternating constipation and diarrhea",Irritable bowel syndrome
+"bloody diarrhea abdominal pain and weight loss",Ulcerative colitis
+"abdominal pain diarrhea and weight loss with mouth ulcers",Crohn's disease
+"bloating diarrhea and fatigue after eating gluten",Celiac disease
+"gas bloating and diarrhea after dairy",Lactose intolerance
+"pain in the right lower abdomen with nausea and fever",Appendicitis
+"severe upper abdominal pain radiating to the back",Acute pancreatitis
+"right upper abdominal pain after fatty meals",Gallstones
+"fever and right upper abdominal pain with jaundice",Cholecystitis
+"yellow skin swollen abdomen and easy bruising",Cirrhosis
+"fatigue and right upper abdominal discomfort in people who drink little alcohol",Fatty liver disease
+"painful bulge in the groin that worsens when coughing",Inguinal hernia
+"small pouches in the colon with left lower abdominal pain",Diverticulitis
+"painful bowel movements and bright red blood on tissue",Hemorrhoids
+"sharp pain during bowel movements and small tear near the anus",Anal fissure
+"difficulty passing stools and hard dry stool",Constipation
+"vomiting abdominal distension and inability to pass gas",Bowel obstruction
+"swelling of the face and ankles with foamy urine",Nephrotic syndrome
+"blood in urine high blood pressure and swelling",Glomerulonephritis
+"fatigue nausea swelling and reduced urine output",Chronic kidney disease
+"difficulty starting urination and weak stream",Benign prostatic hyperplasia
+"pelvic pain fever and painful urination in men",Prostatitis
+"persistent cough weight loss and coughing blood",Lung cancer
+"change in bowel habits blood in stool and weight loss",Colorectal cancer
+"lump in the breast and nipple changes",Breast cancer
+"difficulty swallowing and weight loss",Esophageal cancer
+"abdominal pain weight loss and jaundice",Pancreatic cancer
+"painless blood in urine",Bladder cancer
+"hard testicular lump and heaviness",Testicular cancer
+"pelvic pain bloating and early satiety",Ovarian cancer
+"abnormal vaginal bleeding after intercourse",Cervical cancer
+"fatigue bone pain and frequent infections",Multiple myeloma
+"headache seizures and personality changes",Brain tumor
+"blurred vision halos around lights and eye pain",Glaucoma
+"clouded vision and glare at night",Cataract
+"loss of central vision with distorted lines",Macular degeneration
+"flashes floaters and a curtain over vision",Retinal detachment
+"gritty dry eyes and burning",Dry eye syndrome
+"red swollen painful lump on the eyelid",Stye
+"ringing in the ears",Tinnitus
+"gradual hearing loss with age",Presbycusis
+"toothache with sensitivity to hot and cold",Dental caries
+"bleeding swollen gums and bad breath",Gingivitis
+"painful sores inside the mouth",Aphthous ulcers
+"hoarse voice and throat irritation",Laryngitis
+"inflamed painful tonsils with difficulty swallowing",Tonsillitis
+"snoring and mouth breathing from enlarged tissue behind the nose",Adenoid hypertrophy
+"nosebleeds and nasal obstruction",Deviated septum
+"sudden severe headache and neck stiffness",Subarachnoid hemorrhage
+"fever chills and rapid breathing with low blood pressure",Sepsis
+"swelling of lips tongue and throat with hives after exposure",Anaphylaxis
+"fatigue dry skin and constipation with low iron intake and brittle nails",Iron deficiency
+"bleeding gums fatigue and joint pain from poor diet",Scurvy
+"soft bones and bowed legs in children",Rickets
+"night blindness and dry eyes",Vitamin A deficiency
+"swollen belly thin limbs and edema in children",Kwashiorkor
+"muscle wasting and extreme thinness",Marasmus
+"fatigue weakness and muscle cramps with low potassium",Hypokalemia
+"increased thirst confusion and dry mouth with high sodium",Hypernatremia
+"weight loss tremor and bulging eyes",Graves' disease
+"fatigue and goiter with antibodies attacking the thyroid",Hashimoto's thyroiditis
+"excessive urination and thirst with very dilute urine",Diabetes insipidus
+"headache vision changes and enlarged hands and feet",Acromegaly
+“skin sore with black center and swelling with fever”,Anthrax
+“painful swollen lymph node fever and chills”,Bubonic plague
+“ulcer at the bite site swollen glands and fever”,Tularemia
+“undulating fever sweats and joint pain after raw dairy”,Brucellosis
+“fever headache and cough after animal exposure”,Q fever
+“fever severe headache and rash spreading from the trunk”,Epidemic typhus
+“fever black scab at the bite site and swollen glands”,Scrub typhus
+“prolonged fever enlarged spleen and weight loss”,Visceral leishmaniasis
+“slow-healing skin ulcer after a sandfly bite”,Cutaneous leishmaniasis
+“swelling at the bite site fever and later heart enlargement”,Chagas disease
+“fever swollen neck glands and daytime sleepiness”,African sleeping sickness
+“itchy rash fever and blood in urine after freshwater exposure”,Schistosomiasis
+“swollen limbs and thickened skin”,Lymphatic filariasis
+“intense itching skin nodules and vision loss”,Onchocerciasis
+“itching at the entry site anemia and fatigue”,Hookworm infection
+“cough abdominal pain and worms in stool”,Ascariasis
+“intense anal itching at night”,Pinworm infection
+“abdominal discomfort weight loss and segments in stool”,Tapeworm infection
+“foul-smelling greasy diarrhea and bloating”,Giardiasis
+“bloody diarrhea abdominal pain and liver abscess”,Amoebiasis
+“watery diarrhea and stomach cramps after swimming pool exposure”,Cryptosporidiosis
+“swollen glands and mild flu-like illness after cat contact”,Toxoplasmosis
+“muscle pain facial swelling and fever after eating undercooked pork”,Trichinosis
+“seizures and headaches from cysts in the brain”,Neurocysticercosis
+“liver cysts upper abdominal pain and jaundice”,Hydatid disease
+“numb pale skin patches and thickened nerves”,Leprosy
+“painless swelling progressing to a large skin ulcer”,Buruli ulcer
+“raspberry-like skin lesions and joint pain”,Yaws
+“eye irritation lid scarring and inturned lashes”,Trachoma
+“fever bleeding vomiting and severe weakness”,Ebola virus disease
+“fever severe headache and bleeding”,Marburg virus disease
+“fever sore throat and bleeding with deafness afterward”,Lassa fever
+“fever jaundice and bleeding”,Yellow fever
+“fever headache and seizures after a mosquito bite in rural areas”,Japanese encephalitis
+“fever headache and rash after a mosquito bite with neck stiffness”,West Nile virus infection
+“fever muscle aches and sudden breathlessness after rodent exposure”,Hantavirus pulmonary syndrome
+“fever cough and severe pneumonia after camel contact”,MERS
+“high fever dry cough and breathing difficulty”,SARS
+“runny nose cough and wheezing in infants”,RSV infection
+“rapid breathing wheezing and feeding difficulty in babies”,Bronchiolitis
+“fever sore throat and red eyes”,Adenovirus infection
+“sudden vomiting and watery diarrhea in outbreaks”,Norovirus infection
+“watery diarrhea vomiting and fever in infants”,Rotavirus infection
+“high fever for days followed by a rash in toddlers”,Roseola
+“bright red cheeks and lacy rash”,Fifth disease
+“fever and small ulcers at the back of the throat in children”,Herpangina
+“fever fatigue and swollen glands in newborns or immunosuppressed people”,Cytomegalovirus infection
+“drooling muffled voice and severe throat pain”,Epiglottitis
+“severe one-sided throat pain and trouble opening the mouth”,Peritonsillar abscess
+“fever foul-smelling sputum and cough”,Lung abscess
+“fever chest pain and pus around the lung”,Empyema
+“sharp chest pain on breathing in”,Pleurisy
+“sudden sharp chest pain and shortness of breath”,Pneumothorax
+“breathlessness and dull chest discomfort with fluid around the lung”,Pleural effusion
+“progressive dry cough and breathlessness with clubbed fingers”,Pulmonary fibrosis
+“dry cough fatigue and swollen lymph nodes in the chest”,Sarcoidosis
+“salty skin chronic cough and recurrent lung infections”,Cystic fibrosis
+“chronic cough with large amounts of sputum and recurrent infections”,Bronchiectasis
+“progressive breathlessness and barrel chest”,Emphysema
+“breathlessness fainting and chest pain on exertion”,Pulmonary hypertension
+“severe breathlessness and low oxygen after serious illness”,Acute respiratory distress syndrome
+“cough and breathlessness after years of dust exposure from stone work”,Silicosis
+“breathlessness and chest tightness after asbestos exposure”,Asbestosis
+“cough and breathlessness in coal miners”,Coal workers’ pneumoconiosis
+“cough fever and breathlessness after mold or bird exposure”,Hypersensitivity pneumonitis
+“high fever cough and diarrhea linked to contaminated water systems”,Legionnaires’ disease
+“dry persistent cough headache and mild fever”,Mycoplasma pneumonia
+“fever headache and cough after contact with birds”,Psittacosis
+“cough wheezing and coughing blood with fungal exposure”,Aspergillosis
+“fever cough and chest pain after exposure to bat or bird droppings”,Histoplasmosis
+“fever cough and joint pain after living in dry desert regions”,Coccidioidomycosis
+“headache fever and confusion in immunosuppressed people”,Cryptococcal meningitis
+“painful swallowing and white plaques in the esophagus”,Esophageal candidiasis
+“dry cough breathlessness and fever in people with HIV”,Pneumocystis pneumonia
+“facial pain black nasal discharge and swelling in diabetics”,Mucormycosis
+“painless skin nodules that ulcerate along a lymph channel”,Sporotrichosis
+“light or dark scaly patches on the chest and back”,Tinea versicolor
+“scaly bald patches on the scalp in children”,Tinea capitis
+“thick yellow brittle toenails”,Onychomycosis
+“red irritated rash in the diaper area”,Diaper rash
+“greasy yellow flakes on the scalp and face”,Seborrheic dermatitis
+“itchy red rash after touching an irritant or allergen”,Contact dermatitis
+“oval pink patches following a larger herald patch”,Pityriasis rosea
+“purple itchy flat-topped bumps on wrists and ankles”,Lichen planus
+“painful blisters in the mouth and on the skin that easily rupture”,Pemphigus vulgaris
+“tense itchy blisters in older adults”,Bullous pemphigoid
+“intensely itchy blisters on elbows and knees with gluten sensitivity”,Dermatitis herpetiformis
+“recurrent painful lumps and abscesses in the armpits and groin”,Hidradenitis suppurativa
+“small pus-filled bumps around hair follicles”,Folliculitis
+“painful red lump filled with pus”,Boil
+“painful swollen collection of pus under the skin”,Skin abscess
+“severe pain out of proportion with rapidly spreading dark skin and fever”,Necrotizing fasciitis
+“sharply raised bright red painful skin patch with fever”,Erysipelas
+“tingling followed by small blisters on the lip”,Cold sores
+“rough scaly patches on sun-exposed skin”,Actinic keratosis
+“scaly red nodule that may crust or bleed on sun-exposed skin”,Squamous cell carcinoma
+“purple or brown skin patches in people with weak immunity”,Kaposi sarcoma
+“excessive sweating of palms and underarms”,Hyperhidrosis
+“brown patches on the cheeks and forehead”,Melasma
+“raised thick scar growing beyond the original wound”,Keloid
+“breathlessness chest pain and fainting in young athletes”,Hypertrophic cardiomyopathy
+“fatigue breathlessness and swelling from an enlarged weak heart”,Dilated cardiomyopathy
+“chest pain fatigue and palpitations after a viral illness”,Myocarditis
+“fever migrating joint pain and rash after a sore throat”,Rheumatic fever
+“breathlessness palpitations and fatigue from a narrowed mitral valve”,Mitral stenosis
+“chest pain fainting and breathlessness on exertion in older adults”,Aortic stenosis
+“palpitations chest discomfort and a mid-systolic click”,Mitral valve prolapse
+“blue lips fainting spells and poor feeding in infants”,Tetralogy of Fallot
+“poor feeding fast breathing and a heart murmur in infants”,Ventricular septal defect
+“high blood pressure in the arms and weak pulses in the legs”,Coarctation of the aorta
+“prolonged fever red eyes cracked lips and swollen hands in children”,Kawasaki disease
+“fingers turning white then blue in the cold”,Raynaud’s phenomenon
+“weak pulses arm pain and dizziness in young women”,Takayasu arteritis
+“new headache scalp tenderness and jaw pain in older adults”,Giant cell arteritis
+“painful fingers and toes with ulcers in heavy smokers”,Buerger’s disease
+“pulsating abdominal mass and back pain”,Abdominal aortic aneurysm
+“low blood pressure distended neck veins and muffled heart sounds”,Cardiac tamponade
+“sudden rapid regular palpitations and lightheadedness”,Supraventricular tachycardia
+“slow heartbeat fainting and fatigue”,Heart block
+“dizziness on standing up”,Orthostatic hypotension
+“fainting after standing long or emotional stress”,Vasovagal syncope
+“prolonged bleeding and swollen joints after minor injury”,Hemophilia
+“frequent nosebleeds and heavy menstrual bleeding”,Von Willebrand disease
+“fatigue pallor and bone changes in children of Mediterranean or Asian descent”,Thalassemia
+“fatigue frequent infections and easy bruising from low blood counts”,Aplastic anemia
+“fatigue jaundice and dark urine from red cell destruction”,Hemolytic anemia
+“easy bruising and tiny red spots on the skin”,Immune thrombocytopenia
+“fever bruising confusion and kidney problems”,Thrombotic thrombocytopenic purpura
+“widespread bleeding and clotting in critically ill patients”,Disseminated intravascular coagulation
+“itching after hot baths headache and red face”,Polycythemia vera
+“fatigue joint pain and bronze skin from iron overload”,Hemochromatosis
+“painless neck lump fever and itching”,Hodgkin lymphoma
+“fatigue frequent infections and bleeding in older adults”,Myelodysplastic syndrome
+“fatigue pallor and sore tongue from low folate”,Folate deficiency anemia
+“jaundice and dark urine after eating fava beans or certain drugs”,G6PD deficiency
+“nausea abdominal pain fruity breath and rapid breathing in diabetics”,Diabetic ketoacidosis
+“shakiness sweating and confusion with low blood sugar”,Hypoglycemia
+“kidney stones bone pain and fatigue with high calcium”,Primary hyperparathyroidism
+“muscle cramps tingling and spasms with low calcium”,Hypoparathyroidism
+“episodes of headache sweating and palpitations with high blood pressure”,Pheochromocytoma
+“high blood pressure muscle weakness and low potassium”,Conn’s syndrome
+“milk discharge from the breast and irregular periods”,Prolactinoma
+“fatigue low blood pressure and loss of sexual function from pituitary failure”,Hypopituitarism
+“high blood sugar discovered during pregnancy”,Gestational diabetes
+“abdominal obesity high blood pressure and high blood sugar”,Metabolic syndrome
+“excess body fat with breathlessness and joint pain”,Obesity
+“musty odor developmental delay and seizures in infants”,Phenylketonuria
+“tremor liver disease and golden-brown rings in the eyes”,Wilson’s disease
+“very high cholesterol and yellow deposits around the eyes or tendons”,Familial hypercholesterolemia
+“headache nausea and confusion with low sodium”,Hyponatremia
+“muscle weakness and abnormal heart rhythm with high potassium”,Hyperkalemia
+“tingling around the mouth muscle spasms and seizures”,Hypocalcemia
+“excessive thirst constipation and confusion with high calcium”,Hypercalcemia
+“diarrhea dermatitis and dementia from niacin deficiency”,Pellagra
+“numbness leg weakness and heart failure from thiamine deficiency”,Beriberi
+“bone pain and muscle weakness from low vitamin D”,Osteomalacia
+“easy bruising and bleeding from low vitamin K”,Vitamin K deficiency
+“slow wound healing hair loss and loss of taste”,Zinc deficiency
+“goiter fatigue and impaired growth or intellect from low iodine”,Iodine deficiency disorder
+“enlarged head vomiting and sleepiness in infants”,Hydrocephalus
+“unsteady walking memory problems and urinary incontinence in older adults”,Normal pressure hydrocephalus
+“muscle stiffness and impaired movement present from early childhood”,Cerebral palsy
+“progressive muscle weakness and difficulty walking in boys”,Duchenne muscular dystrophy
+“gap in the spine at birth with leg weakness”,Spina bifida
+“distinctive facial features and developmental delay”,Down syndrome
+“short stature and delayed puberty in girls”,Turner syndrome
+“tall stature small testes and infertility”,Klinefelter syndrome
+“tall thin build long limbs and lens dislocation”,Marfan syndrome
+“very flexible joints and stretchy fragile skin”,Ehlers-Danlos syndrome
+“café-au-lait spots and nerve tumors”,Neurofibromatosis
+“sudden repetitive movements and vocal sounds”,Tourette syndrome
+“uncomfortable urge to move the legs at night”,Restless legs syndrome
+“shaking of the hands when holding objects”,Essential tremor
+“sustained muscle contractions causing twisting postures”,Dystonia
+“visual hallucinations fluctuating alertness and parkinsonism”,Lewy body dementia
+“stepwise memory decline after strokes”,Vascular dementia
+“personality change and language difficulty in midlife”,Frontotemporal dementia
+“rapid dementia muscle jerks and unsteady walking”,Creutzfeldt-Jakob disease
+“brief stroke-like symptoms resolving within hours”,Transient ischemic attack
+“sudden severe headache vomiting and weakness”,Intracerebral hemorrhage
+“headache and confusion that develop days after a head injury in older adults”,Subdural hematoma
+“headache dizziness and confusion after a blow to the head”,Concussion
+“fever headache and focal neurological deficits”,Brain abscess
+“numbness tingling and weakness in the hands and feet”,Peripheral neuropathy
+“foot deformity muscle wasting and high arches inherited”,Charcot-Marie-Tooth disease
+“loss of pain and temperature sensation in the arms”,Syringomyelia
+“saddle numbness bladder dysfunction and leg weakness”,Cauda equina syndrome
+“back and leg pain that eases when leaning forward”,Lumbar spinal stenosis
+“back pain with leg numbness and tingling”,Herniated disc
+“sideways curvature of the spine”,Scoliosis
+“seizure with high fever in young children”,Febrile seizure
+“sudden confusion fluctuating attention and disorientation”,Delirium
+“confusion unsteady gait and abnormal eye movements in heavy drinkers”,Wernicke encephalopathy
+“sharp pain at the back of the head and upper neck”,Occipital neuralgia
+“persistent burning pain after a shingles rash heals”,Postherpetic neuralgia
+“severe burning pain swelling and skin changes after injury in a limb”,Complex regional pain syndrome
+“unstable relationships intense mood swings and fear of abandonment”,Borderline personality disorder
+“intense fear of being judged in social situations”,Social anxiety disorder
+“intense irrational fear of a specific object or situation”,Specific phobia
+“long-term low mood and low energy lasting two years or more”,Persistent depressive disorder
+“fever abdominal cramps and diarrhea after eating contaminated poultry”,Salmonellosis
+“bloody diarrhea fever and cramps after undercooked chicken”,Campylobacteriosis
+“bloody diarrhea and severe cramps after undercooked beef”,Shiga toxin E. coli infection
+“fever muscle aches and diarrhea after eating deli meats or soft cheese”,Listeriosis
+“double vision drooping eyelids and muscle paralysis after improperly canned food”,Botulism
+“watery diarrhea abdominal pain and fever after antibiotic use”,Clostridioides difficile infection
+“upper abdominal pain bloating and nausea from stomach bacteria”,Helicobacter pylori infection
+“high fever rash low blood pressure and peeling skin”,Toxic shock syndrome
+“recurrent painful skin boils resistant to antibiotics”,MRSA infection
+“hot swollen painful joint with fever”,Septic arthritis
+“swollen lymph nodes and fever after a cat scratch”,Cat scratch disease
+“fever chills and fatigue after a tick bite with parasites in red blood cells”,Babesiosis
+“frothy yellow-green vaginal discharge and itching”,Trichomoniasis
+“painful genital ulcer and swollen groin glands”,Chancroid
+“soft cauliflower-like growths on the genitals”,Genital warts
+“fever swollen glands and pus-filled skin lesions”,Mpox
+“winding itchy red tracks on the skin after walking barefoot on beaches”,Cutaneous larva migrans
+“headache fever and confusion after swimming in warm freshwater”,Primary amoebic meningoencephalitis
+“fluid in the lungs breathlessness and pink frothy sputum”,Pulmonary edema
+“nasal blockage loss of smell and soft growths in the nose”,Nasal polyps
+“breathlessness and leg swelling from lung disease straining the right heart”,Cor pulmonale
+“headache nausea and breathlessness at high elevation”,Altitude sickness
+“headache dizziness and confusion from faulty heaters or exhaust fumes”,Carbon monoxide poisoning
+“chest pain breathlessness and weight loss after asbestos exposure”,Mesothelioma
+“low blood pressure dizziness and fainting”,Hypotension
+“chest pain from narrowed heart arteries”,Coronary artery disease
+“fainting and sudden arrhythmia triggered by exercise or loud noise”,Long QT syndrome
+“sudden collapse with no pulse”,Cardiac arrest
+“breathlessness and a diastolic murmur from a leaking aortic valve”,Aortic regurgitation
+“chronic swelling of an arm or leg after lymph node removal”,Lymphedema
+“racing heart on standing with fatigue and brain fog”,Postural orthostatic tachycardia syndrome
+“high blood pressure swelling and protein in urine during pregnancy”,Preeclampsia
+“one-sided pelvic pain and vaginal bleeding with a missed period”,Ectopic pregnancy
+“vaginal bleeding and cramping in early pregnancy”,Miscarriage
+“severe persistent vomiting and weight loss in pregnancy”,Hyperemesis gravidarum
+“painless bright red vaginal bleeding in late pregnancy”,Placenta previa
+“painful vaginal bleeding and a rigid uterus in late pregnancy”,Placental abruption
+“persistent sadness anxiety and bonding difficulty after childbirth”,Postpartum depression
+“painful red swollen breast with fever while breastfeeding”,Mastitis
+“pelvic pain bloating and a pelvic mass that may twist”,Ovarian cyst
+“painful menstrual cramps”,Dysmenorrhea
+“absent periods”,Amenorrhea
+“mood swings bloating and breast tenderness before periods”,Premenstrual syndrome
+“postmenopausal bleeding and pelvic pain”,Endometrial cancer
+“leaking urine when coughing laughing or lifting”,Stress urinary incontinence
+“difficulty getting or keeping an erection”,Erectile dysfunction
+“swollen veins in the scrotum with a dragging ache”,Varicocele
+“sudden severe testicular pain and swelling”,Testicular torsion
+“scrotal pain swelling and fever behind the testicle”,Epididymitis
+“curved painful erection with a plaque in the penis”,Peyronie’s disease
+“urinary difficulty bone pain and raised PSA”,Prostate cancer
+“pelvic pain and urgent frequent urination without infection”,Interstitial cystitis
+“sudden urges to urinate with frequent trips to the toilet”,Overactive bladder
+“flank pain high blood pressure and enlarged kidneys”,Polycystic kidney disease
+“rapid drop in urine output swelling and nausea”,Acute kidney injury
+“blood in urine flank pain and a kidney mass”,Renal cell carcinoma
+“painful swallowing and chest pain from esophageal inflammation”,Esophagitis
+“difficulty swallowing both solids and liquids with regurgitation”,Achalasia
+“long-standing reflux with changes in the esophageal lining”,Barrett’s esophagus
+“heartburn and chest discomfort from stomach pushing through the diaphragm”,Hiatal hernia
+“vomiting blood from swollen esophageal veins”,Esophageal varices
+“nausea early fullness and vomiting from slow stomach emptying”,Gastroparesis
+“upper abdominal pain weight loss and early satiety”,Stomach cancer
+“projectile vomiting in a young infant after feeding”,Pyloric stenosis
+“episodic screaming drawing up of legs and currant-jelly stools in infants”,Intussusception
+“delayed first stool and bloated belly in newborns”,Hirschsprung disease
+“sudden severe abdominal pain and distension from twisted bowel”,Volvulus
+“sudden cramping abdominal pain and bloody diarrhea in older adults”,Ischemic colitis
+“bloating gas and diarrhea from excess bacteria in the small bowel”,Small intestinal bacterial overgrowth
+“painless rectal bleeding or no symptoms with growths in the colon”,Colon polyps
+“painful swelling near the anus with fever”,Anal abscess
+“painful swelling at the top of the buttock cleft with discharge”,Pilonidal cyst
+“jaundice nausea and fatigue after contaminated water, dangerous in pregnancy”,Hepatitis E
+“fatigue jaundice and joint pain from immune-driven liver inflammation”,Autoimmune hepatitis
+“itching fatigue and dry eyes with bile duct damage in women”,Primary biliary cholangitis
+“abdominal swelling weight loss and a liver mass in cirrhosis”,Hepatocellular carcinoma
+“confusion sleep reversal and hand flapping in liver failure”,Hepatic encephalopathy
+“persistent upper abdominal pain and fatty stools from long-term pancreas damage”,Chronic pancreatitis
+“fever jaundice and right upper abdominal pain from a blocked bile duct”,Ascending cholangitis
+“severe abdominal pain with a rigid belly and fever”,Peritonitis
+“difficulty swallowing and food sticking in people with allergies”,Eosinophilic esophagitis
+“upper abdominal discomfort and early fullness without ulcer”,Functional dyspepsia
+“diarrhea cramps and nausea while traveling abroad”,Traveler’s diarrhea
+“yellow skin in newborns in the first week”,Neonatal jaundice
+“painless neck lump and hoarseness”,Thyroid cancer
+“painful neck tenderness with fever after a viral illness”,Subacute thyroiditis
+“fever rapid heartbeat agitation and confusion in hyperthyroid patients”,Thyroid storm
+“episodes of low blood sugar from an insulin-secreting tumor”,Insulinoma
+“breast or pubic hair development before age eight”,Precocious puberty
+“low sodium and concentrated urine from excess antidiuretic hormone”,SIADH
+“dry mouth dizziness and dark urine”,Dehydration
+“very high body temperature confusion and hot dry skin”,Heat stroke
+“shivering confusion and slow breathing after cold exposure”,Hypothermia
+“numb white or blue skin on fingers toes or nose after cold exposure”,Frostbite
+“shoulder pain with overhead movement and weakness”,Rotator cuff tear
+“painful swollen sac over a joint”,Bursitis
+“pain and tenderness near a tendon after overuse”,Tendinitis
+“pain on the inner elbow when gripping”,Golfer’s elbow
+“thumb-side wrist pain when grasping”,De Quervain’s tenosynovitis
+“finger catching or locking when bending”,Trigger finger
+“thickened cords in the palm that bend fingers inward”,Dupuytren’s contracture
+“swelling behind the knee with tightness”,Baker’s cyst
+“knee pain locking and swelling after a twist”,Meniscus tear
+“knee pain instability and swelling after a pivot injury”,ACL injury
+“swelling bruising and pain after rolling the ankle”,Ankle sprain
+“pain and stiffness at the back of the heel”,Achilles tendinitis
+“localized bone pain that worsens with activity”,Stress fracture
+“bone pain and swelling in teenagers near the knee”,Osteosarcoma
+“hip pain from loss of blood supply to the bone”,Avascular necrosis
+“painful bump at the base of the big toe”,Bunion
+“jaw pain clicking and difficulty chewing”,Temporomandibular joint disorder
+“neck pain stiffness and arm tingling with age”,Cervical spondylosis
+“joint pain with psoriasis and swollen fingers”,Psoriatic arthritis
+“morning shoulder and hip stiffness in older adults”,Polymyalgia rheumatica
+“muscle weakness and a purple rash on the eyelids”,Dermatomyositis
+“dry eyes dry mouth and joint pain”,Sjögren’s syndrome
+“recurrent mouth and genital ulcers with eye inflammation”,Behçet’s disease
+“dark urine muscle pain and weakness after intense exertion or crush injury”,Rhabdomyolysis
+“severe limb pain and tight swelling after injury”,Compartment syndrome
+“chest wall pain tender at the rib joints”,Costochondritis
+“neck pain and stiffness after a car collision”,Whiplash
+“facial twitching on one side”,Hemifacial spasm
+“involuntary neck muscle contractions twisting the head”,Cervical dystonia
+“repetitive involuntary mouth movements after long-term antipsychotics”,Tardive dyskinesia
+“acting out dreams with shouting and movement”,REM sleep behavior disorder
+“inability to move or speak when waking or falling asleep”,Sleep paralysis
+“sudden thunderclap headache from a bulging artery”,Brain aneurysm
+“headache and seizures from a clot in brain veins”,Cerebral venous thrombosis
+“headache vision changes and ringing in the ears from raised pressure in the skull”,Idiopathic intracranial hypertension
+“eye pain on movement and vision loss”,Optic neuritis
+“weakness numbness and bladder problems from spinal cord inflammation”,Transverse myelitis
+“aggressive brain tumor with headache and confusion”,Glioblastoma
+“hearing loss ringing and imbalance from a tumor on the hearing nerve”,Acoustic neuroma
+“brief intense spinning triggered by head position changes”,Benign paroxysmal positional vertigo
+“sudden severe vertigo with nausea after a viral illness”,Vestibular neuritis
+“ear pain and itching after swimming”,Otitis externa
+“sudden hearing loss in one ear”,Sudden sensorineural hearing loss
+“nausea dizziness and sweating when traveling”,Motion sickness
+“abdominal pain constipation and learning problems after paint or pipe exposure”,Lead poisoning
+“mood swings hallucinations and delusions together”,Schizoaffective disorder
+“fixed false beliefs without other psychosis”,Delusional disorder
+“feeling detached from oneself or surroundings”,Depersonalization-derealization disorder
+“neurological symptoms without a medical cause after stress”,Functional neurological disorder
+“excessive worry about having a serious illness”,Illness anxiety disorder
+“difficulty discarding possessions and cluttered living space”,Hoarding disorder
+“preoccupation with perceived flaws in appearance”,Body dysmorphic disorder
+“repeated hair pulling”,Trichotillomania
+“recurrent episodes of eating large amounts with distress and no purging”,Binge eating disorder
+“fear of open or crowded spaces”,Agoraphobia
+“excessive distress when separated from caregivers”,Separation anxiety disorder
+“depression in winter months that lifts in spring”,Seasonal affective disorder
+“disregard for others’ rights and lack of remorse”,Antisocial personality disorder
+“grandiosity need for admiration and lack of empathy”,Narcissistic personality disorder
+“drinking despite harm and failed attempts to cut down”,Alcohol use disorder
+“cravings tolerance and withdrawal from opioids”,Opioid use disorder
+“tremors hallucinations and confusion after stopping heavy drinking”,Alcohol withdrawal delirium
+“muscle rigidity fever and altered mental state after antipsychotics”,Neuroleptic malignant syndrome
+“agitation sweating tremor and fever after serotonergic drugs”,Serotonin syndrome
+“blurred distant vision”,Myopia
+“blurred near vision with eye strain”,Hyperopia
+“difficulty reading close up after age forty”,Presbyopia
+“reduced vision in one eye in childhood”,Amblyopia
+“misaligned eyes”,Strabismus
+“blurred vision and floaters from damaged retinal vessels”,Diabetic retinopathy
+“night blindness and tunnel vision”,Retinitis pigmentosa
+“eye redness pain light sensitivity and floaters”,Uveitis
+“red fleshy growth on the white of the eye”,Pterygium
+“sudden painless vision loss in one eye”,Central retinal artery occlusion
+“deep gum pockets loose teeth and bleeding”,Periodontitis
+“severe throbbing toothache with facial swelling and fever”,Dental abscess
+“persistent mouth sore or white patch”,Oral cancer
+“persistent dry mouth”,Xerostomia
+“nosebleeds”,Epistaxis
+“persistent hoarseness and throat lump in smokers”,Laryngeal cancer
+“flaking scalp”,Dandruff
+“itchy swollen red toes in cold weather”,Chilblains
+“intensely itchy thickened skin from scratching”,Lichen simplex chronicus
+“red bumps around the mouth and nose”,Perioral dermatitis
+“dry scaly fish-like skin”,Ichthyosis
+“painful widespread blistering and mucosal sores after a medication”,Stevens-Johnson syndrome
+“target-shaped red skin lesions”,Erythema multiforme
+“tender red lumps on the shins”,Erythema nodosum
+“rapidly enlarging painful skin ulcer with purple borders”,Pyoderma gangrenosum
+“red painful swollen toe edge from a nail growing into the skin”,Ingrown toenail
+“red painful skin after too much sun”,Sunburn
+“tiny itchy red bumps in hot humid weather”,Heat rash
+“open sore over a bony area from prolonged pressure”,Pressure ulcer
+“soft movable lump under the skin”,Lipoma
+“stuck-on waxy brown skin growths”,Seborrheic keratosis
+“excess hair growth in a male pattern in women”,Hirsutism
+“diffuse hair shedding after stress or illness”,Telogen effluvium
+“receding hairline and thinning crown”,Androgenetic alopecia
+“hives vomiting or wheeze after eating a trigger food”,Food allergy
+“recurrent swelling of the face limbs and gut without itching”,Hereditary angioedema
+“recurrent severe infections in infancy”,Severe combined immunodeficiency
+“rash diarrhea and liver problems after a transplant”,Graft-versus-host disease
+“fatigue weakness and enlarged tongue from protein deposits”,Amyloidosis
+“recurrent miscarriages and blood clots with abnormal antibodies”,Antiphospholipid syndrome
+“fatigue night sweats and enlarged spleen”,Chronic myeloid leukemia
+“slow-developing fatigue frequent infections and swollen nodes in older adults”,Chronic lymphocytic leukemia
+“bone pain fever and bruising in children”,Acute lymphoblastic leukemia
+“painless swollen nodes with fever and weight loss”,Non-Hodgkin lymphoma
+“yellow skin itching and weight loss from a bile duct tumor”,Cholangiocarcinoma
+“persistent bone pain and swelling in teens”,Ewing sarcoma
+“abdominal mass and bulging eyes in young children”,Neuroblastoma
+“face swelling and breathlessness from a compressed chest vein”,Superior vena cava syndrome
+“swelling pain and bleeding after a snake bite”,Snakebite envenomation
+“severe pain tingling and muscle twitching after a scorpion sting”,Scorpion sting
+“pain and burns from fire or hot liquids”,Burns
+“confusion vomiting and slowed breathing after heavy drinking”,Alcohol poisoning
+“pinpoint pupils slow breathing and unconsciousness”,Opioid overdose
+“nausea vomiting and later liver failure after too much paracetamol”,Acetaminophen overdose
+“drooling sweating constricted pupils and muscle twitching after pesticide exposure”,Organophosphate poisoning
+“vomiting severe diarrhea and organ failure after eating wild mushrooms”,Mushroom poisoning
+“prolonged inconsolable crying in healthy infants”,Infantile colic
+“poor weight gain in infants”,Failure to thrive
+“thick yellow scales on a baby’s scalp”,Cradle cap
+“developmental regression and loss of hand skills in girls”,Rett syndrome
+“intellectual disability and a long face in boys”,Fragile X syndrome
+“lethargy constipation and prolonged jaundice in newborns”,Congenital hypothyroidism
+“facial features and growth problems after prenatal alcohol exposure”,Fetal alcohol syndrome
+“delayed speech in toddlers”,Speech delay

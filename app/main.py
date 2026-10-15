@@ -59,6 +59,7 @@ from app.services.personal_records import (
     classify_test_type,
     extract_report_details,
     extract_report_text,
+    extract_report_text_from_bytes,
     store_report_file,
     validate_report_upload,
 )
@@ -489,31 +490,32 @@ async def _generate_query_payload(q: str, route_hint: str | None = None):
 
 @app.post("/symptom-check")
 async def symptom_check_endpoint(
-    image: UploadFile | None = File(default=None), symptoms: str = Form(default="")
+    report: UploadFile | None = File(default=None), symptoms: str = Form(default="")
 ) -> dict[str, Any]:
-    """Return a symptom assessment with cause, prevention, risk, and disclaimer."""
-    if image is None:
-        return symptom_checker(None, symptoms)
+    """Assess typed symptoms using text extracted locally from an optional report."""
+    if report is None:
+        return symptom_checker(symptoms=symptoms)
 
+    report_bytes = await report.read()
     try:
-        image_bytes = await image.read()
-        if not image_bytes:
-            return {
-                **symptom_checker(None, symptoms),
-                "ocr_status": "No image data received",
-                "ocr_warning": "No image content was uploaded. Please upload a valid PNG/JPG image or type the symptoms manually.",
-            }
-
-        uploaded = io.BytesIO(image_bytes)
-        uploaded.name = image.filename or "upload.png"
-        return symptom_checker(uploaded, symptoms)
-    except Exception as exc:
-        fallback = symptom_checker(None, symptoms)
-        fallback["ocr_status"] = "Upload failed"
-        fallback["ocr_warning"] = (
-            f"Image upload failed: {exc}. Please retry with a valid PNG/JPG image or enter symptoms manually."
+        suffix = validate_report_upload(
+            report.filename, report.content_type, report_bytes
         )
-        return fallback
+        report_text, extraction_method = extract_report_text_from_bytes(
+            report_bytes, suffix
+        )
+    except ReportProcessingError as exc:
+        status_code = (
+            413
+            if len(report_bytes) > settings().personal_report_max_bytes
+            else 400
+        )
+        raise HTTPException(status_code, str(exc)) from exc
+    return symptom_checker(
+        symptoms=symptoms,
+        report_text=report_text,
+        report_status=f"Report text extracted ({extraction_method})",
+    )
 
 
 @app.post("/query", response_model=QueryResponse)

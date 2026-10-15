@@ -22,7 +22,7 @@ export default function App() {
   const [webResult, setWebResult] = useState(null);
   const [webLoading, setWebLoading] = useState(false);
   const [symptomText, setSymptomText] = useState("");
-  const [symptomImage, setSymptomImage] = useState(null);
+  const [symptomReport, setSymptomReport] = useState(null);
   const [symptomResult, setSymptomResult] = useState(null);
   const [symptomLoading, setSymptomLoading] = useState(false);
   const [report, setReport] = useState(null);
@@ -80,12 +80,12 @@ export default function App() {
 
   async function checkSymptoms(event) {
     event.preventDefault();
-    if (!symptomText.trim() && !symptomImage) return setError("Add symptoms or upload an image to analyze.");
+    if (!symptomText.trim() && !symptomReport) return setError("Add symptoms or upload a medical test report to analyze.");
     setSymptomLoading(true); setError(""); setSymptomResult(null);
     try {
       const form = new FormData();
       if (symptomText.trim()) form.append("symptoms", symptomText);
-      if (symptomImage) form.append("image", symptomImage);
+      if (symptomReport) form.append("report", symptomReport);
       const result = await fetch(`${API}/symptom-check`, { method: "POST", body: form });
       const body = await result.json();
       if (!result.ok) throw new Error(body.detail || "Symptom check failed");
@@ -180,7 +180,7 @@ export default function App() {
   }, {});
 
   return <div className="shell">
-    <header className="topbar"><div className="brand"><span className="brandMark">H</span><div><strong>Healthcare-Ai</strong><small>health intelligence</small></div></div><span className="prototype">RESEARCH PROTOTYPE</span></header>
+    <header className="topbar"><div className="brand"><span className="brandMark">H</span><div><strong>Healthcare-AI</strong><small>Health Intelligence</small></div></div><span className="prototype">MEDICAL RESEARCH</span></header>
     <main>
       <section className="hero"><p className="eyebrow">CLAIM VERIFICATION</p><h1>Health information<br /><em>that you need is here</em></h1><p className="intro">Write one health claim and the classifier will return a prediction, confidence, and the full probability breakdown.</p></section>
       <section className="workspace">
@@ -197,7 +197,7 @@ export default function App() {
         </div>
       </section>
       <section className="webPanel">
-        <div className="panelTitle"><span className="step">03</span>
+        <div className="panelTitle"><span className="step"></span>
         <div><h2>Misinformation Detection</h2>
         <p>The LLM searches the web, compares evidence, and returns cited sources.</p></div>
         </div>
@@ -209,24 +209,22 @@ export default function App() {
         <section className="detailBlock explanation"><h3>Why this verdict?</h3><p>{webResult.explanation || webResult.validation_reason || "The validator did not provide an explanation."}</p><p className="reason"><strong>Reason:</strong> {webResult.validation_reason || "Not provided."}</p></section>{webResult.evidence?.length > 0 && <section className="evidence"><h3>Supporting details</h3>{webResult.evidence.map((item, index) => <article className="evidenceItem" key={`${item.url}-${index}`}><div><b className={item.relationship}>{item.relationship}</b><span>{item.relevance ?? 0}% relevance</span></div><p>{item.reason || "This source was used by the validator."}</p></article>)}</section>}{webResult.sources?.length > 0 && <div className="sources"><h3>Supporting source links</h3>{webResult.sources.map((source, index) => <a href={source.url} target="_blank" rel="noreferrer" key={`${source.url}-${index}`}><strong>{source.title || source.url}</strong><small>{source.url}</small></a>)}</div>}</div>}
       </section>
       <section className="webPanel symptomPanel">
-        <div className="panelTitle"><span className="step">04</span><div><h2>Symptom checker</h2><p>Upload an image or type symptoms and review the likely causes.</p></div></div>
+        <div className="panelTitle"><span className="step"></span><div><h2>Symptom checker</h2><p>Upload a medical test report or type symptoms. Report text is matched locally with the symptom dataset; this is not a clinical interpretation.</p></div></div>
         <form className="symptomForm" onSubmit={checkSymptoms}>
-          <label htmlFor="symptomImage">Image upload</label>
-          <input id="symptomImage" type="file" accept="image/*" onChange={(event) => setSymptomImage(event.target.files?.[0] || null)} />
+          <label htmlFor="symptomReport">Medical test report <span>PDF, PNG, JPG, WEBP · up to 10 MB</span></label>
+          <input id="symptomReport" type="file" accept="application/pdf,image/png,image/jpeg,image/webp" onChange={(event) => setSymptomReport(event.target.files?.[0] || null)} />
           <label htmlFor="symptomText">Symptoms</label>
           <textarea id="symptomText" value={symptomText} onChange={(event) => setSymptomText(event.target.value)} placeholder="Example: fever, cough, sore throat, body aches" />
           <button className="primary" type="submit" disabled={symptomLoading}>{symptomLoading ? "Checking symptoms…" : "Analyze symptoms"}<span>✦</span></button>
         </form>
         {symptomResult && <div className="webResult">
           <section className="detailBlock"><h3>Assessment</h3><p className="answer"><strong>Possible cause:</strong> {symptomResult.cause}</p><p><strong>Risk level:</strong> {symptomResult.risk_level}</p><p><strong>Prevention:</strong> {symptomResult.prevention}</p>{symptomResult.explanation && <p>{symptomResult.explanation}</p>}<p className="reason">{symptomResult.disclaimer}</p></section>
-          <div className="webMeta"><span>Detected symptoms <strong>{symptomResult.detected_symptoms?.length ?? 0}</strong></span><span>OCR status <strong>{symptomResult.ocr_status || "—"}</strong></span></div>
-          {symptomResult.ocr_text && <section className="detailBlock"><h3>OCR text</h3><p className="reason">{symptomResult.ocr_text}</p></section>}
-          {symptomResult.ocr_warning && <section className="detailBlock"><h3>OCR note</h3><p className="reason">{symptomResult.ocr_warning}</p></section>}
+          <div className="webMeta"><span>Detected symptoms <strong>{symptomResult.detected_symptoms?.length ?? 0}</strong></span><span>Report status <strong>{symptomResult.report_status || "—"}</strong></span></div>
           {symptomResult.suggested_causes?.length > 0 && <section className="detailBlock"><h3>Suggested causes</h3>{symptomResult.suggested_causes.map((item, index) => <div className="reportItem symptomCause" key={`${item.cause}-${index}`}><strong>{item.cause}</strong><small>{item.confidence} confidence</small><p>{item.matched_symptoms.join(", ") || "No symptoms matched"}</p></div>)}</section>}
         </div>}
       </section>
       <section className="personalPanel" id="personal-records">
-        <div className="personalHeader"><div className="panelTitle"><span className="step">05</span><div><h2>Personal health records</h2><p>Keep laboratory reports on this device, review extracted values, and compare changes over time.</p></div></div><button className="historyToggle personalToggle" type="button" aria-expanded={personalRecordsVisible} onClick={() => setPersonalRecordsVisible((visible) => !visible)}>{personalRecordsVisible ? "Hide reports" : "Show reports"}</button></div>
+        <div className="personalHeader"><div className="panelTitle"><span className="step"></span><div><h2>Personal health records</h2><p>Keep laboratory reports on this device, review extracted values, and compare changes over time.</p></div></div><button className="historyToggle personalToggle" type="button" aria-expanded={personalRecordsVisible} onClick={() => setPersonalRecordsVisible((visible) => !visible)}>{personalRecordsVisible ? "Hide reports" : "Show reports"}</button></div>
         {personalRecordsVisible && <>
         <div className="personalToolbar">
           <form className="personalUpload" onSubmit={uploadPersonalReport}>
@@ -255,7 +253,7 @@ export default function App() {
         </>}
       </section>
       <section className="webPanel">
-        <div className="panelTitle"><span className="step">06</span><div><h2>Query history</h2><p>Review verification queries, results, and verdicts from this device.</p></div></div>
+        <div className="panelTitle"><span className="step"></span><div><h2>Query history</h2><p>Review verification queries, results, and verdicts from this device.</p></div></div>
         <button className="primary historyRefresh" onClick={fetchReport} disabled={reportLoading}>{reportLoading ? "Loading history…" : "Refresh history"}<span>↻</span></button>
         {reportError && <p className="error" role="alert">{reportError}</p>}
         {report && <div className="queryHistory">

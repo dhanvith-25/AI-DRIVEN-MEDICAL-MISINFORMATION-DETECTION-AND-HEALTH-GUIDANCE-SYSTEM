@@ -27,6 +27,12 @@ their extracted fields and measurements are stored in SQLite. Use:
 PDFs use local text extraction; images use local Tesseract OCR. Install the
 Tesseract executable and put it on PATH to process image reports.
 
+The symptom checker accepts typed symptoms and an optional medical test report
+(PDF or scanned image). Report text is extracted locally, used as matching
+context with the symptom-example dataset, and not stored by the symptom-check
+endpoint. This is dataset matching, not clinical interpretation of laboratory
+results or a medical diagnosis.
+
 Run tests:
 pytest -q
 

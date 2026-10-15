@@ -214,41 +214,49 @@ def test_symptom_database_hit_skips_model(tmp_path, monkeypatch):
     assert result["disclaimer"]
 
 
-def test_symptom_checker_accepts_uploaded_image(tmp_path, monkeypatch):
-    from io import BytesIO
+def test_symptom_checker_uses_uploaded_medical_report(tmp_path, monkeypatch):
     from types import SimpleNamespace
 
-    from PIL import Image
-
     import app.db as db
+    import app.main as main_module
     from app.services import symptom_checker as checker_module
 
     monkeypatch.setattr(db, "settings", lambda: SimpleNamespace(db_path=str(tmp_path / "symptoms.db")))
     db.init_db()
+    extracted_report = "Total bilirubin 2.4 mg/dL HIGH"
+    prediction_inputs = []
+    monkeypatch.setattr(
+        main_module,
+        "validate_report_upload",
+        lambda filename, content_type, raw: ".pdf",
+    )
+    monkeypatch.setattr(
+        main_module,
+        "extract_report_text_from_bytes",
+        lambda raw, suffix: (extracted_report, "pdf_text"),
+    )
     monkeypatch.setattr(
         checker_module,
         "_predict_disease",
-        lambda text: {
-            "cause": "Influenza",
+        lambda text: prediction_inputs.append(text) or {
+            "cause": "Hepatitis A",
             "risk_level": "medium",
-            "prevention": "Rest and drink fluids.",
-            "explanation": "A viral respiratory illness.",
+            "prevention": "Consult a clinician.",
+            "explanation": "A dataset match.",
             "confidence": 0.8,
         },
     )
 
-    image_buffer = BytesIO()
-    Image.new("RGB", (80, 60), "white").save(image_buffer, format="PNG")
-    image_buffer.seek(0)
-
     response = client.post(
         "/symptom-check",
-        files={"image": ("symptoms.png", image_buffer.getvalue(), "image/png")},
+        files={"report": ("lab-report.pdf", b"%PDF-test", "application/pdf")},
         data={"symptoms": "fever, cough"},
     )
 
     assert response.status_code == 200
     body = response.json()
     assert body["manual_symptoms"] == ["fever", "cough"]
-    assert "ocr_status" in body
+    assert body["report_text"] == extracted_report
+    assert body["report_status"] == "Report text extracted (pdf_text)"
+    assert prediction_inputs == ["fever, cough Total bilirubin 2.4 mg/dL HIGH"]
     assert isinstance(body["suggested_causes"], list)

@@ -1,6 +1,7 @@
 import csv
-import io
+import math
 import re
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Iterable
@@ -9,7 +10,6 @@ from app.db import get_symptom_mapping, save_symptom_mapping
 
 
 DISCLAIMER = "This is not a medical diagnosis. Please consult a doctor. Results may be inaccurate."
-PUBMEDBERT_MODEL = "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext"
 
 DISEASE_PROFILES: dict[str, dict[str, str]] = {
     "Allergic rhinitis": {
@@ -76,17 +76,6 @@ def _load_classifier_examples() -> tuple[tuple[str, str], ...]:
         raise ValueError(f"Symptom dataset is empty: {SYMPTOM_DATASET}")
     return examples
 
-try:
-    from PIL import Image
-except ImportError:  # pragma: no cover - optional dependency
-    Image = None
-
-try:
-    import pytesseract
-except ImportError:  # pragma: no cover - optional dependency
-    pytesseract = None
-
-
 SYMPTOM_RULES: dict[str, list[str]] = {
     "Common cold": ["runny nose", "cough", "sneezing", "mild fever", "sore throat", "fatigue"],
     "Influenza / flu": ["fever", "body aches", "chills", "cough", "fatigue", "headache"],
@@ -120,91 +109,82 @@ def _canonical_symptoms(symptoms: Iterable[str]) -> str:
     return ", ".join(sorted(set(symptom for symptom in symptoms if symptom)))
 
 
-def _embed_texts(texts: list[str], tokenizer: Any, model: Any, torch: Any, device: Any) -> Any:
-    encoded = tokenizer(
-        texts, padding=True, truncation=True, max_length=128, return_tensors="pt"
-    )
-    encoded = {name: value.to(device) for name, value in encoded.items()}
-    with torch.no_grad():
-        output = model(**encoded)
-        embeddings = output.last_hidden_state[:, 0, :]
-        embeddings = torch.nn.functional.normalize(embeddings, p=2, dim=1)
-    return embeddings.cpu().numpy()
-
-
 @lru_cache(maxsize=1)
-def _load_pubmedbert_classifier() -> tuple[Any, Any, Any, Any, Any]:
-    import torch
-    from sklearn.linear_model import LogisticRegression
-    from transformers import AutoModel, AutoTokenizer
-
-    tokenizer = AutoTokenizer.from_pretrained(PUBMEDBERT_MODEL)
-    model = AutoModel.from_pretrained(PUBMEDBERT_MODEL)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
-    model.eval()
-
+def _load_dataset_index() -> tuple[
+    dict[str, float], tuple[dict[str, float], ...], tuple[str, ...]
+]:
     classifier_examples = _load_classifier_examples()
-    example_texts = [text for text, _ in classifier_examples]
-    labels = [label for _, label in classifier_examples]
-    embeddings = _embed_texts(example_texts, tokenizer, model, torch, device)
-    classifier = LogisticRegression(max_iter=1000, class_weight="balanced")
-    classifier.fit(embeddings, labels)
-    return tokenizer, model, classifier, torch, device
+    documents = [Counter(_text_features(text)) for text, _ in classifier_examples]
+    labels = tuple(label for _, label in classifier_examples)
+    document_frequency = Counter(
+        feature for document in documents for feature in document
+    )
+    document_count = len(documents)
+    inverse_document_frequency = {
+        feature: math.log((1 + document_count) / (1 + frequency)) + 1
+        for feature, frequency in document_frequency.items()
+    }
+    example_vectors = tuple(
+        _normalized_tfidf(document, inverse_document_frequency)
+        for document in documents
+    )
+    return inverse_document_frequency, example_vectors, labels
 
 
-def _predict_disease(symptom_text: str) -> dict[str, Any]:
-    tokenizer, model, classifier, torch, device = _load_pubmedbert_classifier()
-    embedding = _embed_texts([symptom_text], tokenizer, model, torch, device)
-    probabilities = classifier.predict_proba(embedding)[0]
-    best_index = int(probabilities.argmax())
-    disease = str(classifier.classes_[best_index])
-    profile = DISEASE_PROFILES[disease]
+def _predict_disease(symptom_text: str) -> dict[str, Any] | None:
+    inverse_document_frequency, example_vectors, labels = _load_dataset_index()
+    query_vector = _normalized_tfidf(
+        Counter(_text_features(symptom_text)), inverse_document_frequency
+    )
+    if not query_vector:
+        return None
+
+    similarities = [
+        sum(
+            weight * vector.get(feature, 0.0)
+            for feature, weight in query_vector.items()
+        )
+        for vector in example_vectors
+    ]
+    best_index = max(range(len(similarities)), key=similarities.__getitem__)
+    disease = labels[best_index]
+    profile = DISEASE_PROFILES.get(
+        disease,
+        {
+            "risk_level": "medium",
+            "prevention": "This dataset match is not a diagnosis. Consult a healthcare professional, especially if symptoms are severe or worsening.",
+            "explanation": (
+                f"The symptom dataset matched this input to {disease}; "
+                "symptoms alone cannot confirm this condition."
+            ),
+        },
+    )
     return {
         "cause": disease,
         "risk_level": profile["risk_level"],
         "prevention": profile["prevention"],
         "explanation": profile["explanation"],
-        "confidence": float(probabilities[best_index]),
+        "confidence": min(max(float(similarities[best_index]), 0.0), 1.0),
     }
 
 
-def _extract_ocr_text(image_file: Any) -> dict[str, Any]:
-    if image_file is None:
-        return {"ocr_text": "", "ocr_status": "No image provided", "ocr_warning": ""}
+def _text_features(text: str) -> list[str]:
+    words = re.findall(r"[a-z0-9]+", text.lower())
+    return words + [f"{first} {second}" for first, second in zip(words, words[1:])]
 
-    try:
-        content = image_file.read()
-    except Exception:
-        content = b""
 
-    if not content:
-        return {"ocr_text": "", "ocr_status": "Image file was empty", "ocr_warning": "No image content was uploaded."}
-
-    if Image is None or pytesseract is None:
-        return {
-            "ocr_text": "",
-            "ocr_status": "OCR is unavailable",
-            "ocr_warning": "OCR support is not installed on this server. Please install Tesseract/Pillow or enter symptoms manually; the symptom analysis will still work without image text extraction.",
-        }
-
-    try:
-        img = Image.open(io.BytesIO(content)).convert("RGB")
-        text = pytesseract.image_to_string(img)
-        cleaned = text.strip()
-        if cleaned:
-            return {"ocr_text": cleaned, "ocr_status": "OCR completed", "ocr_warning": ""}
-        return {
-            "ocr_text": "",
-            "ocr_status": "No readable text found",
-            "ocr_warning": "The uploaded image did not contain readable text. Please upload a sharper PNG/JPG image or type the symptoms manually.",
-        }
-    except Exception as exc:  # pragma: no cover - runtime dependency may be missing
-        return {
-            "ocr_text": "",
-            "ocr_status": "OCR processing failed",
-            "ocr_warning": f"OCR could not process the image: {exc}. Please upload a clear PNG/JPG image or enter symptoms manually.",
-        }
+def _normalized_tfidf(
+    term_counts: Counter[str], inverse_document_frequency: dict[str, float]
+) -> dict[str, float]:
+    weighted = {
+        feature: count * inverse_document_frequency[feature]
+        for feature, count in term_counts.items()
+        if feature in inverse_document_frequency
+    }
+    magnitude = math.sqrt(sum(weight * weight for weight in weighted.values()))
+    if not magnitude:
+        return {}
+    return {feature: weight / magnitude for feature, weight in weighted.items()}
 
 
 def _match_causes(symptoms: Iterable[str]) -> list[dict[str, Any]]:
@@ -232,14 +212,25 @@ def _match_causes(symptoms: Iterable[str]) -> list[dict[str, Any]]:
     return matched
 
 
-def symptom_checker(image_file: Any = None, symptoms: str = "") -> dict[str, Any]:
-    ocr_result = _extract_ocr_text(image_file)
+def symptom_checker(
+    symptoms: str = "",
+    report_text: str = "",
+    report_status: str = "No report provided",
+) -> dict[str, Any]:
     manual_symptoms = _parse_symptoms(symptoms)
-    ocr_symptoms = _parse_symptoms(ocr_result.get("ocr_text", ""))
-    all_symptoms = list(dict.fromkeys(manual_symptoms + ocr_symptoms))
+    all_symptoms = manual_symptoms
 
     canonical_symptoms = _canonical_symptoms(all_symptoms)
-    mapping = get_symptom_mapping(canonical_symptoms) if canonical_symptoms else None
+    prediction_text = " ".join(
+        text.strip()
+        for text in (symptoms, report_text)
+        if text and text.strip()
+    )[:20_000]
+    mapping = (
+        get_symptom_mapping(canonical_symptoms)
+        if canonical_symptoms and not report_text
+        else None
+    )
     prediction: dict[str, Any] | None = None
     analysis_method = "symptoms_db"
 
@@ -251,15 +242,11 @@ def symptom_checker(image_file: Any = None, symptoms: str = "") -> dict[str, Any
             "explanation": mapping["explanation"],
             "confidence": 1.0,
         }
-    elif canonical_symptoms:
-        analysis_method = "pubmedbert"
-        try:
-            prediction = _predict_disease(canonical_symptoms)
-        except Exception:
-            prediction = None
-            analysis_method = "unavailable"
+    elif prediction_text:
+        analysis_method = "dataset"
+        prediction = _predict_disease(prediction_text)
 
-        if prediction:
+        if prediction and not report_text:
             try:
                 save_symptom_mapping(
                     canonical_symptoms,
@@ -272,18 +259,21 @@ def symptom_checker(image_file: Any = None, symptoms: str = "") -> dict[str, Any
                 pass
 
     if prediction is None:
-        if all_symptoms:
+        if all_symptoms or report_text:
             cause = "Unable to determine"
             risk_level = "medium"
-            prevention = "The symptom model is unavailable. Please consult a healthcare professional for assessment."
-            explanation = "No reliable symptom mapping was available for this input."
+            prevention = "The symptom dataset did not provide a reliable match. Please ask a healthcare professional to interpret the report and symptoms."
+            explanation = (
+                "No symptom terms matched the available dataset examples. "
+                "This tool does not clinically interpret laboratory results."
+            )
             summary = f"{prevention} {DISCLAIMER}"
             suggested_causes: list[dict[str, Any]] = []
         else:
             cause = "No symptoms provided"
             risk_level = "low"
-            prevention = "Enter symptoms or upload a clear image containing symptom text."
-            explanation = "No symptoms were entered or detected."
+            prevention = "Enter symptoms or upload a readable medical test report."
+            explanation = "No symptoms or report text were provided."
             summary = f"{prevention} {DISCLAIMER}"
             suggested_causes = []
     else:
@@ -306,9 +296,8 @@ def symptom_checker(image_file: Any = None, symptoms: str = "") -> dict[str, Any
         "disclaimer": DISCLAIMER,
         "explanation": explanation,
         "analysis_method": analysis_method,
-        "ocr_text": ocr_result.get("ocr_text", ""),
-        "ocr_status": ocr_result.get("ocr_status", "No image provided"),
-        "ocr_warning": ocr_result.get("ocr_warning", ""),
+        "report_text": report_text,
+        "report_status": report_status,
         "manual_symptoms": manual_symptoms,
         "detected_symptoms": all_symptoms,
         "suggested_causes": suggested_causes,
