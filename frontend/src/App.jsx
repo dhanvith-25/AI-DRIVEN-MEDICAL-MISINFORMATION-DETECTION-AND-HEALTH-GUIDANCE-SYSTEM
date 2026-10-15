@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8081";
 
@@ -23,6 +23,7 @@ export default function App() {
   const [webLoading, setWebLoading] = useState(false);
   const [symptomText, setSymptomText] = useState("");
   const [symptomReport, setSymptomReport] = useState(null);
+  const symptomReportInput = useRef(null);
   const [symptomResult, setSymptomResult] = useState(null);
   const [symptomLoading, setSymptomLoading] = useState(false);
   const [report, setReport] = useState(null);
@@ -95,6 +96,12 @@ export default function App() {
     } finally {
       setSymptomLoading(false);
     }
+  }
+
+  function removeSymptomReport() {
+    setSymptomReport(null);
+    setSymptomResult(null);
+    if (symptomReportInput.current) symptomReportInput.current.value = "";
   }
 
   async function loadPersonalRecords(searchTerm = "") {
@@ -212,7 +219,8 @@ export default function App() {
         <div className="panelTitle"><span className="step"></span><div><h2>Symptom checker</h2><p>Upload a medical test report or type symptoms. Report text is matched locally with the symptom dataset; this is not a clinical interpretation.</p></div></div>
         <form className="symptomForm" onSubmit={checkSymptoms}>
           <label htmlFor="symptomReport">Medical test report <span>PDF, PNG, JPG, WEBP · up to 10 MB</span></label>
-          <input id="symptomReport" type="file" accept="application/pdf,image/png,image/jpeg,image/webp" onChange={(event) => setSymptomReport(event.target.files?.[0] || null)} />
+          <input ref={symptomReportInput} id="symptomReport" type="file" accept="application/pdf,image/png,image/jpeg,image/webp" onChange={(event) => { setSymptomReport(event.target.files?.[0] || null); setSymptomResult(null); }} />
+          {symptomReport && <div className="symptomFileSelection"><span title={symptomReport.name}>{symptomReport.name}</span><button className="symptomRemoveFile" type="button" onClick={removeSymptomReport}>Remove file</button></div>}
           <label htmlFor="symptomText">Symptoms</label>
           <textarea id="symptomText" value={symptomText} onChange={(event) => setSymptomText(event.target.value)} placeholder="Example: fever, cough, sore throat, body aches" />
           <button className="primary" type="submit" disabled={symptomLoading}>{symptomLoading ? "Checking symptoms…" : "Analyze symptoms"}<span>✦</span></button>
