@@ -11,6 +11,7 @@ import re
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
+from typing import Any
 from uuid import uuid4
 
 from PIL import Image, UnidentifiedImageError
@@ -141,7 +142,7 @@ def extract_report_text_from_bytes(raw: bytes, suffix: str) -> tuple[str, str]:
     return _extract_report_text(BytesIO(raw), suffix)
 
 
-def _extract_report_text(source: Path | BytesIO, suffix: str) -> tuple[str, str]:
+def _extract_report_text(source: Any, suffix: str) -> tuple[str, str]:
     try:
         if suffix == ".pdf":
             reader = PdfReader(source)

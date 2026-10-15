@@ -225,7 +225,7 @@ def symptom_checker(
         text.strip()
         for text in (symptoms, report_text)
         if text and text.strip()
-    )[:20_000]
+    )
     mapping = (
         get_symptom_mapping(canonical_symptoms)
         if canonical_symptoms and not report_text
