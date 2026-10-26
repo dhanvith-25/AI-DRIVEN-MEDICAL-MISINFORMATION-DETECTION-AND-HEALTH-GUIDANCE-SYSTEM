@@ -398,7 +398,7 @@ def build_pdf(pdf_path):
         [Paragraph("FAISS Vector Engine", tbl_body_style), Paragraph("app/dataset.py", tbl_body_style), Paragraph("SentenceTransformers embedding generation & FAISS IndexFlatIP search.", tbl_body_style)],
         [Paragraph("Evidence Validator", tbl_body_style), Paragraph("app/services/validator.py", tbl_body_style), Paragraph("5-pillar mathematical scoring engine, WHOIS lookup & SSL validator.", tbl_body_style)],
         [Paragraph("Health Classifier", tbl_body_style), Paragraph("app/services/health_model.py", tbl_body_style), Paragraph("Local TF-IDF + Logistic Regression health claim prediction model.", tbl_body_style)],
-        [Paragraph("Symptom Checker", tbl_body_style), Paragraph("app/services/symptom_checker.py", tbl_body_style), Paragraph("PubMedBERT transformer embedding symptom classifier.", tbl_body_style)],
+        [Paragraph("Symptom Checker", tbl_body_style), Paragraph("app/services/symptom_checker.py", tbl_body_style), Paragraph("Text-based symptom assessment using dataset matching.", tbl_body_style)],
         [Paragraph("Personal Records", tbl_body_style), Paragraph("app/services/personal_records.py", tbl_body_style), Paragraph("PyPDF and Tesseract OCR parser + lab value regex extractor.", tbl_body_style)],
         [Paragraph("LLM Router", tbl_body_style), Paragraph("app/services/llm.py", tbl_body_style), Paragraph("Multi-tier LLM execution router (Groq & OpenRouter).", tbl_body_style)],
         [Paragraph("Search Gateway", tbl_body_style), Paragraph("app/services/search.py", tbl_body_style), Paragraph("Tavily search API gateway for real-time web retrieval.", tbl_body_style)],
@@ -502,7 +502,7 @@ def build_pdf(pdf_path):
         api_headers,
         [Paragraph("/health/predict", tbl_body_style), Paragraph("POST", tbl_body_style), Paragraph("`{\"claim\": \"...\"}`", tbl_body_style), Paragraph("Local ML verdict, confidence, probabilities.", tbl_body_style)],
         [Paragraph("/query", tbl_body_style), Paragraph("POST", tbl_body_style), Paragraph("`{\"query\": \"...\"}`", tbl_body_style), Paragraph("Full RAG answer, sources, 5-pillar score.", tbl_body_style)],
-        [Paragraph("/symptom-check", tbl_body_style), Paragraph("POST", tbl_body_style), Paragraph("Form (`symptoms`, `image`)", tbl_body_style), Paragraph("Disease cause, risk level, prevention, OCR.", tbl_body_style)],
+        [Paragraph("/symptom-check", tbl_body_style), Paragraph("POST", tbl_body_style), Paragraph("Form (`symptoms`)", tbl_body_style), Paragraph("Disease cause, risk level, prevention.", tbl_body_style)],
         [Paragraph("/personal-reports/upload", tbl_body_style), Paragraph("POST", tbl_body_style), Paragraph("File upload (PDF/Image)", tbl_body_style), Paragraph("Stored report ID, extracted measurements.", tbl_body_style)],
         [Paragraph("/personal-reports/summary", tbl_body_style), Paragraph("GET", tbl_body_style), Paragraph("`query` (optional)", tbl_body_style), Paragraph("Longitudinal health metric trend analysis.", tbl_body_style)],
         [Paragraph("/personal-reports/ask", tbl_body_style), Paragraph("POST", tbl_body_style), Paragraph("`{\"question\": \"...\"}`", tbl_body_style), Paragraph("Deterministic Q&A on saved lab test deltas.", tbl_body_style)],
@@ -556,7 +556,7 @@ def build_pdf(pdf_path):
     story.append(Paragraph("Screen-by-Screen UI Architecture", h2_style))
     story.append(Paragraph("• <b>Claim Verification View:</b> Input textarea, predict button, confidence gauge, probability distribution bars.<br/>"
                            "• <b>Misinformation Detection View:</b> Live web verification, cited source links, 5-pillar score badge.<br/>"
-                           "• <b>Symptom Checker View:</b> File upload drop zone, symptom input, assessment card, detected symptom pills.<br/>"
+                           "• <b>Symptom Checker View:</b> Symptom input, assessment card, detected symptom pills.<br/>"
                            "• <b>Personal Health Records View:</b> Report list sidebar, lab measurement table, trend cards with direction deltas, record Q&A.<br/>"
                            "• <b>Query History View:</b> Query audit trail, verdict distribution chart, chronological log entries.", body_style))
 

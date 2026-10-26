@@ -74,7 +74,7 @@ SECTION 4: COMPLETE COMPONENT BREAKDOWN
 5. FAISS Vector Engine (app/dataset.py): SentenceTransformers + FAISS IndexFlatIP cosine similarity retrieval.
 6. Evidence Validator (app/services/validator.py): 5-pillar mathematical evidence validator.
 7. Health Classifier (app/services/health_model.py): Local TF-IDF + Logistic Regression health claim classifier.
-8. Symptom Checker (app/services/symptom_checker.py): PubMedBERT transformer symptom diagnostic service.
+8. Symptom Checker (app/services/symptom_checker.py): Text-based symptom assessment using dataset matching.
 9. Personal Records (app/services/personal_records.py): pypdf and Tesseract OCR parser + lab value regex extractor.
 10. LLM Gateway (app/services/llm.py): Multi-tier LLM API router (Groq & OpenRouter).
 11. Search Gateway (app/services/search.py): Tavily web search integration.
@@ -108,7 +108,7 @@ SECTION 7: API ENDPOINTS
 ================================================================================
 - POST /health/predict : Predict health claim verdict using local ML model.
 - POST /query : Execute RAG query verification with live web sources & validator scoring.
-- POST /symptom-check : Analyze symptoms via OCR / text and PubMedBERT classifier.
+- POST /symptom-check : Analyze manually entered symptoms using the symptom dataset.
 - POST /personal-reports/upload : Extract and save personal lab report measurements locally.
 - GET /personal-reports/summary : Calculate longitudinal health metrics trends.
 - POST /personal-reports/ask : Answer natural language questions on historical lab test changes.
@@ -132,7 +132,7 @@ SECTION 9: SCREEN ANALYSIS
 ================================================================================
 1. Claim Verification Section: Claim input, predict action, confidence meter, probability breakdown.
 2. Misinformation Detection Section: Web verification form, detailed answer, validation score badge, 5-pillar breakdown, cited sources.
-3. Symptom Checker Section: Upload dropzone, symptom text input, assessment card, detected symptom badges, OCR notes.
+3. Symptom Checker Section: Symptom text input, assessment card, detected symptom badges.
 4. Personal Health Records Section: Upload control, search bar, report list sidebar, lab value table, trend cards, change Q&A.
 5. Query History Section: Audit trail overview, summary counts by verdict, chronological query history entries.
 

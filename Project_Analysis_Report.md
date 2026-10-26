@@ -57,7 +57,7 @@ Medical misinformation spreads rapidly online, leading to unverified treatments,
 - **Independent Evidence Validator (`app/services/validator.py`):** Scores evidence on 5 weighted pillars: Relevance (30%), Source Authority (25%), Evidence Agreement (20%), Recency (15%), and Domain Independence (10%).
 - **Personal Health Records & OCR Processing (`POST /personal-reports/upload`):** PDF text extraction and Tesseract image OCR with TF-IDF/Logistic test classifier, measurement parsing, and trend analysis.
 - **Deterministic Record Q&A (`POST /personal-reports/ask`):** Answers natural language queries regarding historical lab value changes (e.g., *"How has my blood sugar changed?"*).
-- **Symptom Checker (`POST /symptom-check`):** Image OCR + PubMedBERT transformer embedding classifier with fallback rule-based matching and SQLite caching (`symptoms_db`).
+- **Symptom Checker (`POST /symptom-check`):** Text-based symptom assessment with dataset matching and SQLite caching (`symptoms_db`).
 - **Admin Review & Fine-Tuning Pipeline (`POST /training/run`):** Human-in-the-loop claim approval workflow and 4-bit NF4 quantized BitsAndBytes + TRL `SFTTrainer` LoRA fine-tuning for Qwen2.5-0.5B-Instruct.
 
 ### 7. Expected Outcomes
@@ -148,7 +148,7 @@ Return Verdict + Probabilities         v       v                    (personal_re
 | **FAISS Vector Engine**| `app/dataset.py` | Dense vector indexing and semantic retrieval | `get_top_k_matches()`, `refresh_index()`, `get_model()` | Uses `SentenceTransformer`, writes binary index |
 | **Evidence Validator** | `app/services/validator.py` | Scored mathematical evidence verification engine | `validate()`, `score()`, `authority()`, `recency()`, `_domain_reputation()` | Calls LLM, Whois, Google Fact Check |
 | **Health Classifier** | `app/services/health_model.py` | Local TF-IDF + Logistic Regression claim model | `predict_health_claim()`, `train_health_model()`, `is_health_related()` | Uses Scikit-Learn, joblib |
-| **Symptom Checker** | `app/services/symptom_checker.py`| Bio-transformer symptom diagnostic service | `symptom_checker()`, `_predict_disease()`, `_extract_ocr_text()` | Uses PubMedBERT, Tesseract OCR |
+| **Symptom Checker** | `app/services/symptom_checker.py`| Text-based symptom assessment service | `symptom_checker()`, `_predict_disease()` | Matches typed symptoms against the symptom dataset and caches results |
 | **Personal Records** | `app/services/personal_records.py`| Lab report OCR parser & TF-IDF test classifier | `extract_report_text()`, `classify_test_type()`, `extract_measurements()` | Uses PyPDF, Tesseract, Pillow, Regex |
 | **LLM Connector** | `app/services/llm.py` | Multi-provider LLM API router (Groq/OpenRouter) | `call()`, `choose_route()`, `cfg()` | Interacts with OpenAI SDK |
 | **Search Gateway** | `app/services/search.py` | External search gateway for real-time web context | `search()` | Calls Tavily HTTP API via `httpx` |
@@ -198,7 +198,7 @@ The SQLite database (`data/satarka.db`) manages 8 relational tables:
 | :--- | :--- | :--- | :--- |
 | `/health/predict` | POST | `{"claim": "..."}` | Verdict, confidence, probability breakdown |
 | `/query` | POST | `{"query": "..."}` | Answer, verdict, validator score, sources, evidence |
-| `/symptom-check` | POST | Form (`symptoms`, `image`) | Disease, risk level, prevention, OCR text |
+| `/symptom-check` | POST | Form (`symptoms`) | Disease, risk level, prevention |
 | `/personal-reports/upload` | POST | File (PDF/PNG/JPG/WEBP) | Report ID, extracted measurements |
 | `/personal-reports/summary` | GET | `query` (optional) | Aggregated lab metrics trend analysis |
 | `/personal-reports/ask` | POST | `{"question": "..."}` | Natural language delta answer on saved lab records |
@@ -224,7 +224,7 @@ The SQLite database (`data/satarka.db`) manages 8 relational tables:
 
 1. **Claim Verification View:** Input textarea, predict button, confidence gauge, probability distribution bars.
 2. **Misinformation Detection View:** Live web verification, cited source links, 5-pillar score badge.
-3. **Symptom Checker View:** File upload drop zone, symptom input, assessment card, detected symptom pills.
+3. **Symptom Checker View:** Text symptom input, assessment card, detected symptom pills.
 4. **Personal Health Records View:** Report list sidebar, lab measurement table, trend cards with direction deltas, record Q&A.
 5. **Query History View:** Query audit trail, verdict distribution chart, chronological log entries.
 

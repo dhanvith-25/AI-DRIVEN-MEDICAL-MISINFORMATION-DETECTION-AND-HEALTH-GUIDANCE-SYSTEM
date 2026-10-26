@@ -488,32 +488,9 @@ async def _generate_query_payload(q: str, route_hint: str | None = None):
 
 
 @app.post("/symptom-check")
-async def symptom_check_endpoint(
-    image: UploadFile | None = File(default=None), symptoms: str = Form(default="")
-) -> dict[str, Any]:
+async def symptom_check_endpoint(symptoms: str = Form(default="")) -> dict[str, Any]:
     """Return a symptom assessment with cause, prevention, risk, and disclaimer."""
-    if image is None:
-        return symptom_checker(None, symptoms)
-
-    try:
-        image_bytes = await image.read()
-        if not image_bytes:
-            return {
-                **symptom_checker(None, symptoms),
-                "ocr_status": "No image data received",
-                "ocr_warning": "No image content was uploaded. Please upload a valid PNG/JPG image or type the symptoms manually.",
-            }
-
-        uploaded = io.BytesIO(image_bytes)
-        uploaded.name = image.filename or "upload.png"
-        return symptom_checker(uploaded, symptoms)
-    except Exception as exc:
-        fallback = symptom_checker(None, symptoms)
-        fallback["ocr_status"] = "Upload failed"
-        fallback["ocr_warning"] = (
-            f"Image upload failed: {exc}. Please retry with a valid PNG/JPG image or enter symptoms manually."
-        )
-        return fallback
+    return symptom_checker(symptoms=symptoms)
 
 
 @app.post("/query", response_model=QueryResponse)

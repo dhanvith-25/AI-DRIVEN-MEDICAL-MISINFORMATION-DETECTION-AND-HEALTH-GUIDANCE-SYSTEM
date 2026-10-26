@@ -272,8 +272,8 @@ def symptom_checker(
         else:
             cause = "No symptoms provided"
             risk_level = "low"
-            prevention = "Enter symptoms or upload a readable medical test report."
-            explanation = "No symptoms or report text were provided."
+            prevention = "Enter symptoms to receive an assessment."
+            explanation = "No symptoms were provided."
             summary = f"{prevention} {DISCLAIMER}"
             suggested_causes = []
     else:
