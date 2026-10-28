@@ -1,0 +1,1374 @@
+{
+  "title": "Testing Results and Performance Evaluation",
+  "generated_at": "2026-10-26T17:29:02.868249+00:00",
+  "execution_environment": {
+    "python": "3.12.10",
+    "platform": "Windows",
+    "packages": {
+      "numpy": "1.26.4",
+      "scipy": "1.16.3",
+      "scikit-learn": "1.9.1",
+      "faiss-cpu": "1.15.1",
+      "sentence-transformers": "3.4.1",
+      "torch": "2.14.1",
+      "pypdf": "6.21.2",
+      "pytesseract": "0.3.13",
+      "fastapi": "0.133.1",
+      "pytest": "8.4.2"
+    },
+    "frontend_build": "PASS; Vite 8.2.1; 16 modules; 429 ms",
+    "offline_mode": true,
+    "state_isolation": "Temporary DB, personal-report directory, model output and FAISS paths; API credentials blank. API timing batch preceded NumPy compatibility rollback; final pytest ran after rollback."
+  },
+  "project_analysis": {
+    "api_endpoints": [
+      {
+        "method": "GET",
+        "path": "/"
+      },
+      {
+        "method": "GET",
+        "path": "/api/status"
+      },
+      {
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "method": "POST",
+        "path": "/health/predict"
+      },
+      {
+        "method": "POST",
+        "path": "/symptom-check"
+      },
+      {
+        "method": "POST",
+        "path": "/health/train"
+      },
+      {
+        "method": "GET",
+        "path": "/health/dataset"
+      },
+      {
+        "method": "POST",
+        "path": "/health/upload"
+      },
+      {
+        "method": "POST",
+        "path": "/personal-reports/upload"
+      },
+      {
+        "method": "GET",
+        "path": "/personal-reports"
+      },
+      {
+        "method": "GET",
+        "path": "/personal-reports/search"
+      },
+      {
+        "method": "GET",
+        "path": "/personal-reports/summary"
+      },
+      {
+        "method": "POST",
+        "path": "/personal-reports/ask"
+      },
+      {
+        "method": "GET",
+        "path": "/personal-reports/1"
+      },
+      {
+        "method": "DELETE",
+        "path": "/personal-reports/1"
+      },
+      {
+        "method": "POST",
+        "path": "/query"
+      },
+      {
+        "method": "GET",
+        "path": "/report"
+      },
+      {
+        "method": "POST",
+        "path": "/dataset/search"
+      },
+      {
+        "method": "POST",
+        "path": "/dataset/refresh-index"
+      },
+      {
+        "method": "GET",
+        "path": "/dataset"
+      },
+      {
+        "method": "GET",
+        "path": "/logs"
+      },
+      {
+        "method": "GET",
+        "path": "/training/status"
+      },
+      {
+        "method": "GET",
+        "path": "/admin/review-dashboard"
+      },
+      {
+        "method": "POST",
+        "path": "/admin/review"
+      },
+      {
+        "method": "POST",
+        "path": "/training/run"
+      }
+    ],
+    "components": {
+      "symptom_checker": "app/services/symptom_checker.py: phrase splitting/canonicalization, local TF-IDF matching against data/symptom_examples.csv, rule/profile risk and disclaimer. No separately trained clinical disease model.",
+      "health_claim_classifier": "app/services/health_model.py: TF-IDF + LogisticRegression, domain filter, confidence threshold to UNCERTAIN; uses synthetic/small claim data.",
+      "faiss_retrieval": "app/dataset.py: SentenceTransformer all-MiniLM-L6-v2, normalized vectors, FAISS IndexFlatIP, SQLite verified_claims metadata.",
+      "fact_checking": "app/services/evidence_reasoner.py, app/services/validator.py and app/services/search.py: optional Tavily, LLM validation, source scoring, conflict outcomes. Google Fact Check/WHOIS/SSL are optional.",
+      "report_processing": "app/services/personal_records.py: local pypdf extraction, Tesseract OCR, local TF-IDF/logistic report classification, regex metadata/date/measurement parsing.",
+      "database": "Eight SQLite tables: verified_claims, claim_reviews, training_examples, training_runs, query_log, personal_reports, personal_measurements, symptoms_db.",
+      "frontend": "React/Vite frontend/src/App.jsx integrates health/predict, query, symptom-check, report and personal-record APIs. app/static/index.html is backend static page.",
+      "training": "Optional LoRA in app/training/pipeline.py; disabled by default."
+    },
+    "dependency_diagram": "graph TD\n UI[React/Vite frontend] --> API[FastAPI app.main]\n API --> SYM[Symptom checker]\n SYM --> SDB[(symptoms_db)]\n SYM --> SCSV[symptom_examples.csv + TF-IDF]\n API --> CLAIM[Evidence reasoner / health classifier]\n CLAIM --> SEARCH[Optional Tavily search]\n API --> RET[FAISS / all-MiniLM-L6-v2]\n RET --> VDB[(verified_claims)]\n API --> VALID[Validator / optional LLM + evidence scoring]\n VALID --> QLOG[(query_log)]\n API --> OCR[pypdf + Tesseract report processor]\n OCR --> PARSE[Report classifier + parser]\n PARSE --> PDB[(personal_reports + personal_measurements)]\n API --> ADMIN[Review + optional training]\n ADMIN --> TRAIN[(claim_reviews / training_examples / training_runs)]",
+    "existing_test_files": [
+      "tests/test_api.py",
+      "tests/test_faiss_search.py",
+      "tests/test_personal_records.py",
+      "tests/test_symptom_checker.py",
+      "tests/test_upload.py",
+      "tests/test_validator.py"
+    ],
+    "new_test_file": "tests/test_project_evaluation.py"
+  },
+  "unit_testing": {
+    "total": 35,
+    "passed": 35,
+    "failed": 0,
+    "success_rate_pct": 100.0,
+    "categories": [
+      {
+        "component": "Symptom parsing, normalization, prediction and risk response",
+        "tests": 6,
+        "passed": 6,
+        "failed": 0
+      },
+      {
+        "component": "Report normalization, classification, measurements, PDF and OCR",
+        "tests": 22,
+        "passed": 22,
+        "failed": 0
+      },
+      {
+        "component": "Database mapping and report persistence",
+        "tests": 2,
+        "passed": 2,
+        "failed": 0
+      },
+      {
+        "component": "FAISS unit retrieval fixture",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0
+      },
+      {
+        "component": "Claim classifier confidence threshold",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0
+      },
+      {
+        "component": "Evidence reasoner abstention",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0
+      },
+      {
+        "component": "Fact-check validator gate and scoring",
+        "tests": 2,
+        "passed": 2,
+        "failed": 0
+      }
+    ],
+    "pytest_suite": {
+      "total": 49,
+      "passed": 48,
+      "failed": 1,
+      "skipped": 0,
+      "success_rate_pct": 97.96,
+      "duration_seconds": 15.341,
+      "failure": "tests/test_api.py::test_health_prediction: expected CONTRADICTED; actual UNCERTAIN at 60.0% confidence; probabilities SUPPORTED 15.07%, CONTRADICTED 15.07%, UNCERTAIN 69.87%."
+    }
+  },
+  "integration_testing": {
+    "workflows": [
+      {
+        "workflow": "Symptom assessment",
+        "duration_ms": 146.585,
+        "result": "PASS"
+      },
+      {
+        "workflow": "Report upload/search/summary/ask/delete",
+        "duration_ms": 59.611,
+        "result": "PASS"
+      },
+      {
+        "workflow": "Claim verification and history",
+        "duration_ms": 34.624,
+        "result": "PASS"
+      },
+      {
+        "workflow": "Three-query FAISS retrieval",
+        "duration_ms": 50.956,
+        "result": "PASS"
+      }
+    ],
+    "successful_workflows": 4,
+    "total_workflows": 4,
+    "success_rate_pct": 100.0,
+    "average_workflow_completion_ms": 72.944,
+    "failed_workflows": [],
+    "existing_api_tests": {
+      "total": 14,
+      "passed": 13,
+      "failed": 1,
+      "success_rate_pct": 92.86
+    },
+    "note": "Four targeted local workflows passed after using corrected multiline PDF fixture; external services disabled."
+  },
+  "functional_testing": {
+    "cases": [
+      {
+        "feature": "Symptom analysis",
+        "input": "fever muscle pain and yellow eyes after contact with floodwater",
+        "expected": "HTTP 200 and non-empty assessment",
+        "actual": "HTTP 200; cause=Leptospirosis; risk=medium",
+        "pass": true
+      },
+      {
+        "feature": "Disease prediction",
+        "input": "Same existing labeled symptom fixture",
+        "expected": "Leptospirosis",
+        "actual": "Leptospirosis",
+        "pass": true
+      },
+      {
+        "feature": "Risk-level generation",
+        "input": "Same symptom fixture",
+        "expected": "medium profile result",
+        "actual": "medium",
+        "pass": true
+      },
+      {
+        "feature": "Medical report upload",
+        "input": "Synthetic local PDF",
+        "expected": "HTTP 200 plus report id",
+        "actual": "HTTP 200; id=1",
+        "pass": true
+      },
+      {
+        "feature": "Medical report extraction",
+        "input": "PDF with 8 expected fields",
+        "expected": "8 exact metadata/measurement fields from a multiline synthetic PDF",
+        "actual": "8/8 exact fields; Fasting Glucose 95.0 mg/dL normal; Vitamin D 25.0 ng/mL low",
+        "pass": true,
+        "passed": true
+      },
+      {
+        "feature": "Medical report search",
+        "input": "q=Glucose",
+        "expected": "Uploaded report present",
+        "actual": "1 result(s)",
+        "pass": true
+      },
+      {
+        "feature": "Report summary generation",
+        "input": "Two-measurement PDF",
+        "expected": "2 total measurements after successful extraction",
+        "actual": 2,
+        "pass": true
+      },
+      {
+        "feature": "Health claim verification",
+        "input": "Vaccination reduces risk of severe COVID-19 disease.",
+        "expected": "Verified dataset hit",
+        "actual": "HTTP 200; verdict=SUPPORTED; dataset_hit=True",
+        "pass": true
+      },
+      {
+        "feature": "Query history",
+        "input": "Verified claim query",
+        "expected": "Claim appears in /report",
+        "actual": "found=True",
+        "pass": true
+      },
+      {
+        "feature": "Fact checking",
+        "input": "Vaccination reduces risk of severe COVID-19 disease.",
+        "expected": "SUPPORTED verdict plus evidence URL",
+        "actual": "verdict=SUPPORTED; sources=1",
+        "pass": true
+      }
+    ],
+    "passed": 10,
+    "total": 10,
+    "accuracy_pct": 100.0,
+    "feature_completion_pct": 100.0
+  },
+  "api_testing": {
+    "requests": 36,
+    "successful": 36,
+    "failed": 0,
+    "success_rate_pct": 100.0,
+    "average_latency_ms": 20.441,
+    "minimum_latency_ms": 0.925,
+    "maximum_latency_ms": 316.806,
+    "expected_endpoint_methods": 25,
+    "covered_endpoint_methods": 25,
+    "endpoint_coverage_pct": 100.0,
+    "missing_endpoint_methods": [],
+    "endpoint_requests": [
+      {
+        "test": "root",
+        "method": "GET",
+        "path": "/",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 72.197,
+        "pass": true
+      },
+      {
+        "test": "status",
+        "method": "GET",
+        "path": "/api/status",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 2.376,
+        "pass": true
+      },
+      {
+        "test": "health",
+        "method": "GET",
+        "path": "/health",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 5.947,
+        "pass": true
+      },
+      {
+        "test": "claim prediction",
+        "method": "POST",
+        "path": "/health/predict",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 27.713,
+        "pass": true
+      },
+      {
+        "test": "symptom analysis",
+        "method": "POST",
+        "path": "/symptom-check",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 37.987,
+        "pass": true
+      },
+      {
+        "test": "health model training",
+        "method": "POST",
+        "path": "/health/train",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 316.806,
+        "pass": true
+      },
+      {
+        "test": "health training dataset",
+        "method": "GET",
+        "path": "/health/dataset",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 3.085,
+        "pass": true
+      },
+      {
+        "test": "CSV claim upload",
+        "method": "POST",
+        "path": "/health/upload",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 18.086,
+        "pass": true
+      },
+      {
+        "test": "report upload",
+        "method": "POST",
+        "path": "/personal-reports/upload",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 39.928,
+        "pass": true
+      },
+      {
+        "test": "report listing",
+        "method": "GET",
+        "path": "/personal-reports",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 5.133,
+        "pass": true
+      },
+      {
+        "test": "report search",
+        "method": "GET",
+        "path": "/personal-reports/search",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 2.508,
+        "pass": true
+      },
+      {
+        "test": "report summary",
+        "method": "GET",
+        "path": "/personal-reports/summary",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.066,
+        "pass": true
+      },
+      {
+        "test": "report question",
+        "method": "POST",
+        "path": "/personal-reports/ask",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 2.555,
+        "pass": true
+      },
+      {
+        "test": "report detail",
+        "method": "GET",
+        "path": "/personal-reports/1",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.421,
+        "pass": true
+      },
+      {
+        "test": "report delete",
+        "method": "DELETE",
+        "path": "/personal-reports/1",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 11.597,
+        "pass": true
+      },
+      {
+        "test": "claim verification",
+        "method": "POST",
+        "path": "/query",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 29.358,
+        "pass": true
+      },
+      {
+        "test": "query history",
+        "method": "GET",
+        "path": "/report",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.973,
+        "pass": true
+      },
+      {
+        "test": "dataset search",
+        "method": "POST",
+        "path": "/dataset/search",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 24.417,
+        "pass": true
+      },
+      {
+        "test": "FAISS index refresh",
+        "method": "POST",
+        "path": "/dataset/refresh-index",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 38.202,
+        "pass": true
+      },
+      {
+        "test": "verified claims list",
+        "method": "GET",
+        "path": "/dataset",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 3.069,
+        "pass": true
+      },
+      {
+        "test": "query logs",
+        "method": "GET",
+        "path": "/logs",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.822,
+        "pass": true
+      },
+      {
+        "test": "training status",
+        "method": "GET",
+        "path": "/training/status",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 6.196,
+        "pass": true
+      },
+      {
+        "test": "admin review dashboard",
+        "method": "GET",
+        "path": "/admin/review-dashboard",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.878,
+        "pass": true
+      },
+      {
+        "test": "admin review update",
+        "method": "POST",
+        "path": "/admin/review",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 14.809,
+        "pass": true
+      },
+      {
+        "test": "training run status",
+        "method": "POST",
+        "path": "/training/run",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 7.155,
+        "pass": true
+      }
+    ],
+    "all_requests": [
+      {
+        "test": "root",
+        "method": "GET",
+        "path": "/",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 72.197,
+        "pass": true
+      },
+      {
+        "test": "status",
+        "method": "GET",
+        "path": "/api/status",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 2.376,
+        "pass": true
+      },
+      {
+        "test": "health",
+        "method": "GET",
+        "path": "/health",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 5.947,
+        "pass": true
+      },
+      {
+        "test": "claim prediction",
+        "method": "POST",
+        "path": "/health/predict",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 27.713,
+        "pass": true
+      },
+      {
+        "test": "symptom analysis",
+        "method": "POST",
+        "path": "/symptom-check",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 37.987,
+        "pass": true
+      },
+      {
+        "test": "health model training",
+        "method": "POST",
+        "path": "/health/train",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 316.806,
+        "pass": true
+      },
+      {
+        "test": "health training dataset",
+        "method": "GET",
+        "path": "/health/dataset",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 3.085,
+        "pass": true
+      },
+      {
+        "test": "CSV claim upload",
+        "method": "POST",
+        "path": "/health/upload",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 18.086,
+        "pass": true
+      },
+      {
+        "test": "report upload",
+        "method": "POST",
+        "path": "/personal-reports/upload",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 39.928,
+        "pass": true
+      },
+      {
+        "test": "report listing",
+        "method": "GET",
+        "path": "/personal-reports",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 5.133,
+        "pass": true
+      },
+      {
+        "test": "report search",
+        "method": "GET",
+        "path": "/personal-reports/search",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 2.508,
+        "pass": true
+      },
+      {
+        "test": "report summary",
+        "method": "GET",
+        "path": "/personal-reports/summary",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.066,
+        "pass": true
+      },
+      {
+        "test": "report question",
+        "method": "POST",
+        "path": "/personal-reports/ask",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 2.555,
+        "pass": true
+      },
+      {
+        "test": "report detail",
+        "method": "GET",
+        "path": "/personal-reports/1",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.421,
+        "pass": true
+      },
+      {
+        "test": "report delete",
+        "method": "DELETE",
+        "path": "/personal-reports/1",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 11.597,
+        "pass": true
+      },
+      {
+        "test": "claim verification",
+        "method": "POST",
+        "path": "/query",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 29.358,
+        "pass": true
+      },
+      {
+        "test": "query history",
+        "method": "GET",
+        "path": "/report",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.973,
+        "pass": true
+      },
+      {
+        "test": "dataset search",
+        "method": "POST",
+        "path": "/dataset/search",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 24.417,
+        "pass": true
+      },
+      {
+        "test": "FAISS index refresh",
+        "method": "POST",
+        "path": "/dataset/refresh-index",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 38.202,
+        "pass": true
+      },
+      {
+        "test": "verified claims list",
+        "method": "GET",
+        "path": "/dataset",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 3.069,
+        "pass": true
+      },
+      {
+        "test": "query logs",
+        "method": "GET",
+        "path": "/logs",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.822,
+        "pass": true
+      },
+      {
+        "test": "training status",
+        "method": "GET",
+        "path": "/training/status",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 6.196,
+        "pass": true
+      },
+      {
+        "test": "admin review dashboard",
+        "method": "GET",
+        "path": "/admin/review-dashboard",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 4.878,
+        "pass": true
+      },
+      {
+        "test": "admin review update",
+        "method": "POST",
+        "path": "/admin/review",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 14.809,
+        "pass": true
+      },
+      {
+        "test": "training run status",
+        "method": "POST",
+        "path": "/training/run",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 7.155,
+        "pass": true
+      },
+      {
+        "test": "short health claim",
+        "method": "POST",
+        "path": "/health/predict",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 1.188,
+        "pass": true
+      },
+      {
+        "test": "short query",
+        "method": "POST",
+        "path": "/query",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 0.925,
+        "pass": true
+      },
+      {
+        "test": "zero-k semantic search",
+        "method": "POST",
+        "path": "/dataset/search",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 1.18,
+        "pass": true
+      },
+      {
+        "test": "invalid review status",
+        "method": "POST",
+        "path": "/admin/review",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 2.982,
+        "pass": true
+      },
+      {
+        "test": "unsupported report extension",
+        "method": "POST",
+        "path": "/personal-reports/upload",
+        "expected_status": 400,
+        "status": 400,
+        "latency_ms": 1.754,
+        "pass": true
+      },
+      {
+        "test": "CSV missing claim column",
+        "method": "POST",
+        "path": "/health/upload",
+        "expected_status": 400,
+        "status": 400,
+        "latency_ms": 1.392,
+        "pass": true
+      },
+      {
+        "test": "missing report id",
+        "method": "GET",
+        "path": "/personal-reports/999999",
+        "expected_status": 404,
+        "status": 404,
+        "latency_ms": 4.004,
+        "pass": true
+      },
+      {
+        "test": "delete missing report",
+        "method": "DELETE",
+        "path": "/personal-reports/999999",
+        "expected_status": 404,
+        "status": 404,
+        "latency_ms": 2.48,
+        "pass": true
+      },
+      {
+        "test": "missing report search query",
+        "method": "GET",
+        "path": "/personal-reports/search",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 5.85,
+        "pass": true
+      },
+      {
+        "test": "severe symptom safety check",
+        "method": "POST",
+        "path": "/symptom-check",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 12.264,
+        "pass": true
+      },
+      {
+        "test": "no-evidence safety behavior",
+        "method": "POST",
+        "path": "/health/predict",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 9.555,
+        "pass": true
+      }
+    ],
+    "http_2xx_requests": 27,
+    "expected_4xx_requests": 9,
+    "unexpected_failures": 0,
+    "expected_response_matches": 36,
+    "expected_response_match_rate_pct": 100.0,
+    "raw_2xx_rate_pct": 75.0,
+    "status_counts": {
+      "200": 27,
+      "400": 2,
+      "404": 2,
+      "422": 5
+    },
+    "endpoint_methods": [
+      {
+        "method": "GET",
+        "path": "/",
+        "status": 200,
+        "latency_ms": 72.197,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/api/status",
+        "status": 200,
+        "latency_ms": 2.376,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/health",
+        "status": 200,
+        "latency_ms": 5.947,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/health/predict",
+        "status": 200,
+        "latency_ms": 27.713,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/symptom-check",
+        "status": 200,
+        "latency_ms": 37.987,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/health/train",
+        "status": 200,
+        "latency_ms": 316.806,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/health/dataset",
+        "status": 200,
+        "latency_ms": 3.085,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/health/upload",
+        "status": 200,
+        "latency_ms": 18.086,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/personal-reports/upload",
+        "status": 200,
+        "latency_ms": 39.928,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/personal-reports",
+        "status": 200,
+        "latency_ms": 5.133,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/personal-reports/search",
+        "status": 200,
+        "latency_ms": 2.508,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/personal-reports/summary",
+        "status": 200,
+        "latency_ms": 4.066,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/personal-reports/ask",
+        "status": 200,
+        "latency_ms": 2.555,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/personal-reports/1",
+        "status": 200,
+        "latency_ms": 4.421,
+        "result": "PASS"
+      },
+      {
+        "method": "DELETE",
+        "path": "/personal-reports/1",
+        "status": 200,
+        "latency_ms": 11.597,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/query",
+        "status": 200,
+        "latency_ms": 29.358,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/report",
+        "status": 200,
+        "latency_ms": 4.973,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/dataset/search",
+        "status": 200,
+        "latency_ms": 24.417,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/dataset/refresh-index",
+        "status": 200,
+        "latency_ms": 38.202,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/dataset",
+        "status": 200,
+        "latency_ms": 3.069,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/logs",
+        "status": 200,
+        "latency_ms": 4.822,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/training/status",
+        "status": 200,
+        "latency_ms": 6.196,
+        "result": "PASS"
+      },
+      {
+        "method": "GET",
+        "path": "/admin/review-dashboard",
+        "status": 200,
+        "latency_ms": 4.878,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/admin/review",
+        "status": 200,
+        "latency_ms": 14.809,
+        "result": "PASS"
+      },
+      {
+        "method": "POST",
+        "path": "/training/run",
+        "status": 200,
+        "latency_ms": 7.155,
+        "result": "PASS"
+      }
+    ],
+    "validation_cases": [
+      {
+        "test": "short health claim",
+        "method": "POST",
+        "path": "/health/predict",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 1.188,
+        "pass": true
+      },
+      {
+        "test": "short query",
+        "method": "POST",
+        "path": "/query",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 0.925,
+        "pass": true
+      },
+      {
+        "test": "zero-k semantic search",
+        "method": "POST",
+        "path": "/dataset/search",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 1.18,
+        "pass": true
+      },
+      {
+        "test": "invalid review status",
+        "method": "POST",
+        "path": "/admin/review",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 2.982,
+        "pass": true
+      },
+      {
+        "test": "unsupported report extension",
+        "method": "POST",
+        "path": "/personal-reports/upload",
+        "expected_status": 400,
+        "status": 400,
+        "latency_ms": 1.754,
+        "pass": true
+      },
+      {
+        "test": "CSV missing claim column",
+        "method": "POST",
+        "path": "/health/upload",
+        "expected_status": 400,
+        "status": 400,
+        "latency_ms": 1.392,
+        "pass": true
+      },
+      {
+        "test": "missing report id",
+        "method": "GET",
+        "path": "/personal-reports/999999",
+        "expected_status": 404,
+        "status": 404,
+        "latency_ms": 4.004,
+        "pass": true
+      },
+      {
+        "test": "delete missing report",
+        "method": "DELETE",
+        "path": "/personal-reports/999999",
+        "expected_status": 404,
+        "status": 404,
+        "latency_ms": 2.48,
+        "pass": true
+      },
+      {
+        "test": "missing report search query",
+        "method": "GET",
+        "path": "/personal-reports/search",
+        "expected_status": 422,
+        "status": 422,
+        "latency_ms": 5.85,
+        "pass": true
+      }
+    ],
+    "safety_requests": [
+      {
+        "test": "severe symptom safety check",
+        "method": "POST",
+        "path": "/symptom-check",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 12.264,
+        "pass": true
+      },
+      {
+        "test": "no-evidence safety behavior",
+        "method": "POST",
+        "path": "/health/predict",
+        "expected_status": 200,
+        "status": 200,
+        "latency_ms": 9.555,
+        "pass": true
+      }
+    ],
+    "interpretation": "36 requests: 25 successful core methods, 9 intentional invalid/not-found validation cases and 2 safety probes. All matched expected statuses; 9 expected 4xx are not unexpected API failures."
+  },
+  "retrieval_testing": {
+    "queries": [
+      {
+        "query": "Does vaccination lower the risk of severe COVID?",
+        "expected_document": "Vaccination reduces risk of severe COVID-19 disease.",
+        "retrieved_document": "Vaccination reduces risk of severe COVID-19 disease.",
+        "top1_similarity": 0.8342,
+        "expected_rank_top3": 1,
+        "top1_hit": true,
+        "top3_hit": true,
+        "retrieved_top3": [
+          {
+            "document": "Vaccination reduces risk of severe COVID-19 disease.",
+            "similarity": 0.8342
+          },
+          {
+            "document": "Antibiotics do not cure the viral common cold.",
+            "similarity": 0.3273
+          },
+          {
+            "document": "Regular physical activity supports cardiovascular health.",
+            "similarity": 0.1179
+          }
+        ]
+      },
+      {
+        "query": "Can antibiotics cure a viral cold?",
+        "expected_document": "Antibiotics do not cure the viral common cold.",
+        "retrieved_document": "Antibiotics do not cure the viral common cold.",
+        "top1_similarity": 0.8231,
+        "expected_rank_top3": 1,
+        "top1_hit": true,
+        "top3_hit": true,
+        "retrieved_top3": [
+          {
+            "document": "Antibiotics do not cure the viral common cold.",
+            "similarity": 0.8231
+          },
+          {
+            "document": "Vaccination reduces risk of severe COVID-19 disease.",
+            "similarity": 0.3551
+          },
+          {
+            "document": "Regular physical activity supports cardiovascular health.",
+            "similarity": 0.0061
+          }
+        ]
+      },
+      {
+        "query": "Can exercise improve heart health?",
+        "expected_document": "Regular physical activity supports cardiovascular health.",
+        "retrieved_document": "Regular physical activity supports cardiovascular health.",
+        "top1_similarity": 0.7311,
+        "expected_rank_top3": 1,
+        "top1_hit": true,
+        "top3_hit": true,
+        "retrieved_top3": [
+          {
+            "document": "Regular physical activity supports cardiovascular health.",
+            "similarity": 0.7311
+          },
+          {
+            "document": "Vaccination reduces risk of severe COVID-19 disease.",
+            "similarity": 0.1743
+          },
+          {
+            "document": "Antibiotics do not cure the viral common cold.",
+            "similarity": 0.1221
+          }
+        ]
+      }
+    ],
+    "top1_accuracy_pct": 100.0,
+    "top3_accuracy_pct": 100.0,
+    "precision_at_3": 0.3333,
+    "recall_at_3": 1.0,
+    "f1_at_3": 0.5,
+    "average_top1_similarity": 0.7961,
+    "benchmark_size": 3,
+    "scope": "Three hand-authored paraphrases and three synthetic records in isolated SQLite/FAISS; actual local all-MiniLM-L6-v2. Not a representative corpus test."
+  },
+  "safety_testing": {
+    "checks": [
+      {
+        "scenario": "Symptom disclaimer",
+        "input": "Existing symptom dataset example",
+        "expected": "Non-diagnosis disclaimer",
+        "actual": "This is not a medical diagnosis. Please consult a doctor. Results may be inaccurate.",
+        "pass": true
+      },
+      {
+        "scenario": "Severe breathing symptoms",
+        "input": "Severe difficulty breathing and chest tightness",
+        "expected": "Explicit emergency/urgent-care referral",
+        "actual": "risk=high; referral=True; prevention=Follow your clinician's asthma plan and avoid known triggers. Seek urgent care for severe or worsening breathing difficulty.",
+        "pass": true
+      },
+      {
+        "scenario": "No external evidence",
+        "input": "A new herb cures every illness overnight",
+        "expected": "UNCERTAIN and no sources",
+        "actual": "verdict=UNCERTAIN; sources=0",
+        "pass": true
+      },
+      {
+        "scenario": "Contradictory evidence",
+        "input": "Two conflicting fixture evidence items",
+        "expected": "CONFLICTING validation status",
+        "actual": "CONFLICTING",
+        "pass": true
+      },
+      {
+        "scenario": "Diagnostic disclaimer",
+        "input": "Claim classifier response",
+        "expected": "Prototype/non-diagnostic warning",
+        "actual": "No external evidence was retrieved. The result is conservative and marked uncertain.",
+        "pass": false
+      },
+      {
+        "scenario": "No specific medication dose in emergency symptom response",
+        "input": "Severe difficulty breathing and chest tightness",
+        "expected": "No unsupported drug/dosage directive",
+        "actual": "Prevention advises following a clinician plan and seeking urgent care; no medicine or numeric dose stated.",
+        "pass": true
+      }
+    ],
+    "passed": 5,
+    "total": 6,
+    "software_guard_assertions_pct": 83.33,
+    "emergency_cases": 1,
+    "emergency_detection_passed": 1,
+    "emergency_detection_rate_pct": 100.0,
+    "false_reassurance_rate_pct": null,
+    "false_reassurance_reason": "No clinician-adjudicated dangerous-symptom data; cannot calculate.",
+    "disclaimer_gap": "/health/predict no-evidence warning omits explicit non-diagnosis disclaimer; /symptom-check includes one.",
+    "interpretation": "Assertion score only, not clinical safety validation."
+  },
+  "report_extraction_fixture": {
+    "exact_fields_correct": 8,
+    "exact_fields_tested": 8,
+    "accuracy_pct": 100.0,
+    "test_type": "Blood Sugar",
+    "patient_name": "Sample Patient",
+    "doctor_name": "Dr Sample",
+    "reported_date": "2026-09-20",
+    "measurements": [
+      {
+        "test_name": "Fasting Glucose",
+        "value_num": 95.0,
+        "unit": "mg/dL",
+        "reference_range": "70 - 99",
+        "status": "normal"
+      },
+      {
+        "test_name": "Vitamin D",
+        "value_num": 25.0,
+        "unit": "ng/mL",
+        "reference_range": "30 - 100",
+        "status": "low"
+      }
+    ],
+    "workflow_duration_ms": 59.611,
+    "scope": "One synthetic text-PDF fixture; not a general accuracy estimate."
+  },
+  "testing_results_and_performance_evaluation": {
+    "overall_system_accuracy_pct": null,
+    "overall_system_accuracy_reason": "No independent end-to-end ground-truth set.",
+    "disease_prediction_accuracy_pct": null,
+    "disease_prediction_accuracy_reason": "No clinician-reviewed held-out symptom/disease labels.",
+    "claim_classifier_csv_fixture_accuracy_pct": 100.0,
+    "claim_classifier_fixture": "2/2 labeled CSV rows passed; tiny fixture, not out-of-sample accuracy.",
+    "report_extraction_fixture_accuracy_pct": 100.0,
+    "report_extraction_scope": "8/8 exact fields from one generated text PDF only.",
+    "retrieval_top1_accuracy_pct": 100.0,
+    "retrieval_top3_accuracy_pct": 100.0,
+    "api_core_reliability_pct": 100.0,
+    "api_core_reliability": "25/25 successful endpoint statuses; 36/36 expected response matches, including 9 expected 4xx.",
+    "functional_fixture_pass_pct": 100.0,
+    "integration_workflow_success_pct": 100.0,
+    "unit_test_success_pct": 100.0,
+    "full_pytest_success_pct": 97.96,
+    "system_reliability_score_pct": null,
+    "system_reliability_reason": "No production uptime, load/soak, failure recovery or population reliability data."
+  },
+  "limitations": [
+    "Live LLM, Tavily, Google Fact Check, WHOIS and web-source validation were not exercised.",
+    "FAISS benchmark has only three hand-authored query/document pairs.",
+    "Claim dataset is synthetic/small; no held-out classifier or clinician-reviewed symptom/disease set.",
+    "Report extraction accuracy is one synthetic PDF; Tesseract test covers one generated image.",
+    "Emergency detection 1/1 is a single designed scenario; false-reassurance rate is unavailable.",
+    "Frontend build passed; browser-driven frontend/API end-to-end interaction was not run.",
+    "One existing health-prediction test expectation fails (see unit report)."
+  ],
+  "environment_note": "An initial API run invoked POST /health/train before the working directory was isolated; the local ignored models/health_claim_model.joblib was regenerated from the existing data/health_claims_dataset.csv and could not be restored byte-for-byte. The artifact is not Git-tracked. Evaluation DB and personal report files were isolated; no project SQLite or personal report contents were used."
+}
